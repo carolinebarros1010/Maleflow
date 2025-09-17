@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FemFlow | Treino alinhado ao ciclo menstrual</title>
+  <meta name="description" content="Treinos femininos alinhados às fases do ciclo menstrual: 7 dias grátis, Programa de 15 dias + eBook de Nutrição, Plano de 12 semanas e Consultoria Premium." />
+  <meta property="og:title" content="FemFlow | Treino alinhado ao ciclo menstrual" />
+  <meta property="og:description" content="Escolha seu plano e treine a favor da sua biologia: 7 dias grátis, 15 dias + eBook, 12 semanas, ou Consultoria Premium." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#CC6A5A" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--creme:#F4E1D7;--pessego:#EFBDA6;--terracota:#CC6A5A;--teal:#335953;--grafite:#1f2937;--branco:#fff;--fundo:#fffaf7;}
+    *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--fundo);color:var(--grafite);font-family:Lato,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial}
+    .container{width:min(1120px,92vw);margin-inline:auto}
+    .topbar{background:linear-gradient(90deg,var(--pessego),var(--terracota));color:#fff;padding:.5rem 0;font-size:.95rem}
+    .topbar .container{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap}
+    header{position:sticky;top:0;z-index:50;background:rgba(255,250,247,.85);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #f0d2c8}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
+    .brand{display:flex;align-items:center;gap:.75rem;font-weight:900}
+    .logo{width:38px;height:38px;border-radius:12px;background:conic-gradient(from 180deg, var(--creme), var(--pessego), var(--terracota), var(--teal));box-shadow:0 6px 18px rgba(204,106,90,.25)}
+    .cta-header{padding:.7rem 1.1rem;background:var(--terracota);color:#fff;border-radius:999px;font-weight:800;box-shadow:0 6px 16px rgba(204,106,90,.25)}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:2rem;align-items:center;padding:3rem 0}
+    .kicker{letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:900;font-size:.85rem}
+    h1{font-family:"Playfair Display",serif;line-height:1.05;margin:.4rem 0 1rem;font-size:clamp(1.9rem,3.2vw + 1rem,3.4rem)}
+    .sub{font-size:1.1rem;color:#4b5563}
+    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.25rem}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:1rem 1.25rem;border-radius:14px;font-weight:900;border:2px solid transparent;transition:.2s ease;cursor:pointer}
+    .btn-primary{background:var(--terracota);color:#fff;box-shadow:0 12px 24px rgba(204,106,90,.25)}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 16px 28px rgba(204,106,90,.28)}
+    .btn-ghost{background:#fff;border-color:#f0d2c8;color:var(--grafite)}
+    .hero-media{border-radius:18px;overflow:hidden;box-shadow:0 20px 40px rgba(51,89,83,.18)}
+    .section{padding:2.5rem 0}
+    .section h2{font-family:"Playfair Display",serif;font-size:clamp(1.4rem,2vw + .8rem,2.2rem);margin:0 0 .75rem}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .card{background:#fff;border:1px solid #f1d9cf;border-radius:18px;padding:1.2rem;box-shadow:0 10px 24px rgba(204,106,90,.08)}
+    .offers{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    .offer{position:relative;background:linear-gradient(180deg,#fff, #fff 60%, #fff4f0);border:1px solid #f1d9cf;border-radius:22px;padding:1.25rem;box-shadow:0 16px 30px rgba(204,106,90,.10)}
+    .badge{position:absolute;top:12px;right:12px;background:var(--teal);color:#fff;font-weight:900;font-size:.75rem;padding:.3rem .6rem;border-radius:999px}
+    .price{font-size:1.4rem;font-weight:900;color:var(--teal)}
+    .features{margin:.6rem 0 1rem;padding:0 0 0 1rem}.features li{margin:.3rem 0}
+    .offer .btn{width:100%}
+    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    details{background:#fff;border:1px solid #f1d9cf;border-radius:14px;padding:1rem}
+    summary{font-weight:800;cursor:pointer}
+    footer{padding:3rem 0 4rem;background:linear-gradient(180deg, #fff4f0, #fff)}
+    .footgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1rem}
+    .small{font-size:.9rem;color:#6b7280}
+    .footnote{margin-top:1rem;font-size:.85rem;color:#6b7280}
+    @media (max-width:980px){.hero{grid-template-columns:1fr}.offers{grid-template-columns:1fr 1fr}.grid-3,.benefits{grid-template-columns:1fr 1fr}.footgrid{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.offers,.grid-3,.benefits{grid-template-columns:1fr}.footgrid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <span>🎁 <b>7 dias grátis</b> para sentir o método • </span>
+      <span>💬 Suporte humano • </span>
+      <span>🔒 Pagamento 100% seguro</span>
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>FemFlow</span>
+      </div>
+      <a class="cta-header" href="#ofertas">Começar agora</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="inicio">
+      <div>
+        <div class="kicker">Método feminino • ciclo como guia</div>
+        <h1>Transforme sua energia em performance com treinos alinhados ao ciclo menstrual.</h1>
+        <p class="sub">Chega de treinar contra o corpo. Periodização que respeita sintomas, hormônios e rotina — para mais energia, menos lesão e resultados consistentes.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#ofertas">Ver planos</a>
+          <a class="btn btn-ghost" href="#como-funciona">Como funciona</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img alt="Treino feminino alinhado ao ciclo" src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=1200&q=80&auto=format&fit=crop"/>
+      </div>
+    </section>
+
+    <!-- ... (demais seções com planos, benefícios, FAQ, footer etc. iguais ao modelo anterior) ... -->
+
+  </main>
+
+  <script>
+    // Troque aqui pelos links reais
+    const MAP = {
+      TYPEBOT_7_DIAS: 'https://automacao.chatideal.com.br/anamnese-g44p1wv',
+      CHECKOUT_15_DIAS: 'https://SEU_CHECKOUT_15',
+      CHECKOUT_12_SEMANAS: 'https://SEU_CHECKOUT_12',
+      WHATS_PREMIUM: 'https://wa.me/551151942268?text=Quero%20a%20Consultoria%20Premium%20FemFlow'
+    };
+    document.querySelectorAll('[data-link]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const key = a.getAttribute('data-link');
+        if (MAP[key] && MAP[key] !== '#') a.setAttribute('href', MAP[key]);
+      }, { once:true });
+    });
+  </script>
+</body>
+</html>
