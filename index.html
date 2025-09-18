@@ -23,7 +23,7 @@
     header{position:sticky;top:0;z-index:50;background:rgba(255,250,247,.85);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--borda)}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
     .brand{display:flex;align-items:center;gap:.75rem;font-weight:900}
-    .logo{width:38px;height:38px;border-radius:12px;background:conic-gradient(from 180deg, #F4E1D7, #EFBDA6, #CC6A5A, #335953);box-shadow:0 6px 18px rgba(204,106,90,.25)}
+    .logo-img {height: 62px; width: auto;display: block;}
     .cta-header{padding:.7rem 1.1rem;background:var(--terracota);color:#fff;border-radius:999px;font-weight:800;box-shadow:0 6px 16px rgba(204,106,90,.25)}
     .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center;padding:3rem 0}
     .kicker{letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:900;font-size:.85rem}
@@ -72,10 +72,9 @@
 
   <header>
     <div class="container nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <span>FemFlow</span>
-      </div>
+     <div class="brand">
+        <img src="./assets/logo-femflow-rose.png" alt="Logo FemFlow" class="logo-img" />
+       </div>
       <a class="cta-header" href="#ofertas">Começar agora</a>
     </div>
   </header>
@@ -319,7 +318,9 @@
   <footer>
     <div class="container footgrid">
       <div>
-        <div class="brand"><div class="logo" aria-hidden="true"></div><span>FemFlow</span></div>
+        <div class="brand">
+           <img src="./assets/logo-femflow-rose.png" alt="Logo FemFlow" class="logo-img" />
+         </div>
         <p class="small">© 2025 FemFlow / MyFlowLife. Conteúdo educativo; não substitui aconselhamento médico. Consulte sua médica(o) antes de iniciar treino.</p>
         <p class="footnote">LGPD: coletamos dados apenas para entrega do plano e comunicações relacionadas. Você pode solicitar exclusão a qualquer momento.</p>
       </div>
