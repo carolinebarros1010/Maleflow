@@ -1,1 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MaleFlow | Start 7 Dias</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--primary:#335953;--border:#e6ecea}
+  body{font-family:'Rubik',system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#fff;color:#1f2937;margin:0}
+  .wrap{max-width:960px;margin:0 auto;padding:2rem 1rem}
+  .gate,.ok{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.25rem;box-shadow:0 10px 20px rgba(0,0,0,.06)}
+  h1{color:var(--primary);margin:0 0 .25rem}
+  .btn{display:inline-block;background:var(--primary);color:#fff;padding:.9rem 1.2rem;border-radius:12px;font-weight:900;text-decoration:none}
+  .day{border:1px solid var(--border);border-radius:12px;padding:1rem;margin:.75rem 0}
+  .muted{color:#6b7280}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="gate" class="gate" style="display:none">
+      <h1>Start MaleFlow — 7 dias</h1>
+      <p class="muted">Para liberar o plano, comece pelo assistente. É rápido (menos de 1 minuto) e ajusta o material para o seu objetivo.</p>
+      <a class="btn" id="goBot" href="https://YOUR_TYPEBOT_URL?redirectUrl=https%3A%2F%2Fwww.maleflow.com.br%2F7dias">Começar pelo assistente</a>
+    </div>
+
+    <div id="ok" class="ok" style="display:none">
+      <h1>Seu plano de 7 dias</h1>
+      <p class="muted">Salve esta página. Se preferir, peça a versão em PDF no Whats.</p>
+
+      <!-- Dias 1–7 (conteúdo resumido que já definimos) -->
+      <div class="day">
+        <h3>Dia 1 — Treino A (Peito)</h3>
+        <ul>
+          <li><b>Aquecimento submáximo:</b> Supino reto 2×20 @ 50% carga</li>
+          <li><b>Força:</b> Supino reto 4×4–6 (80–90% 1RM)</li>
+          <li><b>Bi-set:</b> Supino inclinado + Flexão pés elevados (3x)</li>
+          <li><b>Tri-set:</b> Crucifixo cabo + Desenvolvimento militar + Prancha escapular (3x)</li>
+          <li><b>Drop-set:</b> Crossover polia até falha</li>
+          <li><b>Alongado estabilizador:</b> Face pull 3×15</li>
+          <li><b>Alongado principal:</b> Crucifixo inclinado 3×12</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Dia 2 — Cardio + Mobilidade</h3>
+        <ul>
+          <li>20–30 min corrida leve (PSE 4–5)</li>
+          <li>10 min mobilidade (quadril, t-spine, ombros)</li>
+          <li>Respiração box 4–4–4–4 por 5 min</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Dia 3 — Treino B (Costas + Agonistas)</h3>
+        <ul>
+          <li>Aquec.: Barra fixa assistida 2×15</li>
+          <li>Força: Remada curvada 4×4–6</li>
+          <li>Bi-set: Puxada aberta + Pull-over (3x)</li>
+          <li>Tri-set: Remada baixa + Supino fechado + Prancha lateral (3x)</li>
+          <li>Drop-set: Remada unilateral até falha</li>
+          <li>Along. estabilizador: Prancha 3×30–40s</li>
+          <li>Along. principal: Barra fixa isométrica 3×tempo</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Dia 4 — Cardio + Mobilidade</h3>
+        <ul>
+          <li>Bike/Remo 25–40 min (PSE 5–6)</li>
+          <li>Mobilidade quadril/tornozelo 10 min</li>
+          <li>Respiração coerente 6 min</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Dia 5 — Treino C (Pernas + Ombros)</h3>
+        <ul>
+          <li>Aquec.: Agachamento 2×20 @ 50%</li>
+          <li>Força: Agachamento 4×4–6</li>
+          <li>Bi-set: Leg press 12 + Afundo 12/cada (3x)</li>
+          <li>Tri-set: Elevação lateral + Elevação frontal + Rollout (3x)</li>
+          <li>Drop-set: Extensora até falha</li>
+          <li>Along. estabilizador: Good morning leve 3×12</li>
+          <li>Along. principal: Flexor banco romano 3×15</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Dia 6 — Cardio Intervalado</h3>
+        <ul>
+          <li>5–8 min aquecimento</li>
+          <li>6–8 × (1 min forte / 1 min trote)</li>
+          <li>Desaceleração + alongamento</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Dia 7 — Descanso</h3>
+        <ul>
+          <li>Caminhada leve opcional</li>
+          <li>Foco em sono, hidratação e alimentação</li>
+        </ul>
+      </div>
+
+      <p class="muted">Próximo passo: <a class="btn" href="/#ofertas">Strong (App + Whats) ou Elite (TP + Premium)</a></p>
+    </div>
+  </div>
+
+<script>
+  // mostra o conteúdo apenas se veio do Typebot
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const fromBot = params.get("from")==="typebot";
+    // se quiser exigir um token, valide aqui (params.get("t"))
+    document.getElementById(fromBot ? "ok" : "gate").style.display = "block";
+    // botão do gate mantém redirect
+    const go = document.getElementById('goBot');
+    if(go){
+      const utm = location.search || "";
+      const u = new URL(go.href);
+      const red = new URL("https://www.maleflow.com.br/7dias");
+      red.searchParams.set("from","typebot");
+      if (utm) red.search += (red.search ? "&" : "") + utm.slice(1);
+      u.searchParams.set("redirectUrl", encodeURIComponent(red.toString()));
+      go.href = u.toString();
+    }
+  })();
+</script>
+</body>
+</html>
 
