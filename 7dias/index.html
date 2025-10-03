@@ -18,6 +18,23 @@
   .hide{display:none}
   /* imagem grande no topo do plano (mesma largura do card) */
   .hero-img{width:100%;max-width:100%;border-radius:14px;margin:1rem 0 1.5rem;display:block}
+  .header-7dias {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.header-img img {
+  max-height: 140px;  /* ajuste a altura que preferir */
+  width: auto;
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -36,12 +53,17 @@
     </div>
 
     <!-- CONTEÚDO LIBERADO (imagem grande + dias 1-7) -->
+    
     <div id="ok" class="card hide">
-      <h1>Seu plano de 7 dias</h1>
-      <p class="muted">Guarde este link. Se preferir, peça o PDF no Whats.</p>
-
-      <!-- IMAGEM GRANDE DO PLANO -->
-      <img src="./male-7dias-logo.png" alt="MaleFlow 7 Dias" class="hero-img" />
+    <div class="header-7dias">
+  <div class="header-text">
+    <h1>Seu plano de 7 dias</h1>
+    <p class="muted">Guarde este link. Se preferir, peça o PDF no Whats.</p>
+  </div>
+  <div class="header-img">
+    <img src="./assets/male-7dias-logo.png" alt="MaleFlow 7 Dias">
+  </div>
+</div>
 
       <!-- Dias 1–7 -->
       <div class="day">
