@@ -16,6 +16,8 @@
   .day{border:1px solid var(--border);border-radius:12px;padding:1rem;margin:.75rem 0}
   .muted{color:#6b7280}
   .hide{display:none}
+  /* imagem grande no topo do plano (mesma largura do card) */
+  .hero-img{width:100%;max-width:100%;border-radius:14px;margin:1rem 0 1.5rem;display:block}
 </style>
 </head>
 <body>
@@ -25,14 +27,21 @@
     <div id="gate" class="card">
       <h1>Start MaleFlow — acesso guiado</h1>
       <p class="muted">Para liberar o plano, passe pelo assistente rápido (ajusta o material ao seu objetivo).</p>
-      <a class="btn" id="goBot" href="#">Abrir assistente</a>
+      <!-- fallback com href direto (funciona mesmo sem JS) -->
+      <a class="btn" id="goBot"
+         href="https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw?redirectUrl=https%3A%2F%2Fwww.maleflow.com.br%2F7dias%3Ffrom%3Dtypebot">
+        Abrir assistente
+      </a>
       <p id="err" class="muted"></p>
     </div>
 
-    <!-- CONTEÚDO LIBERADO -->
+    <!-- CONTEÚDO LIBERADO (imagem grande + dias 1-7) -->
     <div id="ok" class="card hide">
       <h1>Seu plano de 7 dias</h1>
       <p class="muted">Guarde este link. Se preferir, peça o PDF no Whats.</p>
+
+      <!-- IMAGEM GRANDE DO PLANO -->
+      <img src="./assets/male-7dias-logo.png" alt="MaleFlow 7 Dias" class="hero-img" />
 
       <!-- Dias 1–7 -->
       <div class="day">
@@ -108,29 +117,29 @@
           <li>Foco em sono, hidratação e alimentação</li>
         </ul>
       </div>
+    </div><!-- /#ok -->
 
-      <!-- CTA de retorno -->
-      <div class="card" style="margin-top:2rem;text-align:center;">
-        <h2 style="color:#335953;margin-bottom:.5rem;">Você sentiu o Start...</h2>
-        <p class="muted" style="margin-bottom:1rem;line-height:1.6;">
-          7 dias provam que o método funciona. Resultado consistente vem com plano completo.
-        </p>
-        <a href="/#ofertas" class="btn" style="margin:.5rem;display:inline-block;">
-          🔥 Subir para o Strong — App + Whats (R$119,90)
-        </a>
-        <a href="/#ofertas" class="btn" style="background:#1f2937;margin:.5rem;display:inline-block;">
-          🚀 Ir direto para o Elite — App/TrainingPeaks + Premium (R$199,90)
-        </a>
-      </div>
+    <!-- CTA de retorno (fora do bloco do plano, como você pediu) -->
+    <div class="card" id="upsell" style="margin-top:2rem;text-align:center;">
+      <h2 style="color:#335953;margin-bottom:.5rem;">Você sentiu o Start...</h2>
+      <p class="muted" style="margin-bottom:1rem;line-height:1.6;">
+        7 dias provam que o método funciona. Resultado consistente vem com plano completo.
+      </p>
+      <a href="/#ofertas" class="btn" style="margin:.5rem;display:inline-block;">
+        🔥 Subir para o Strong — App + Whats (R$119,90)
+      </a>
+      <a href="/#ofertas" class="btn" style="background:#1f2937;margin:.5rem;display:inline-block;">
+        🚀 Ir direto para o Elite — App/TrainingPeaks + Premium (R$199,90)
+      </a>
     </div>
 
-  </div>
+  </div><!-- /.wrap -->
 
 <script>
 /* ===== Config ===== */
-const TYPEBOT_URL = "https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw"; // OK em https
+const TYPEBOT_URL = "https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw"; // link público (https)
 const LS_KEY = "mf_7dias_token";
-const TTL_MIN = 60;
+const TTL_MIN = 60; // minutos de passe local
 
 /* UTM pass-through */
 function pickUTM(searchParams){
@@ -173,11 +182,12 @@ function readToken(){
   const from = params.get("from");
   const cached = readToken();
 
-  // configura botão do gate
+  // configura botão do gate (href já tem fallback, aqui só garantimos UTM dinâmica)
   const go = document.getElementById("goBot");
   if (go) {
     const redirectUrl = encodeURIComponent(makeRedirectUrl());
     go.href = `${TYPEBOT_URL}?redirectUrl=${redirectUrl}`;
+    go.setAttribute("rel","noopener");
   }
 
   // libera conteúdo
@@ -188,7 +198,7 @@ function readToken(){
   } else if (cached) {
     document.getElementById("gate").classList.add("hide");
     document.getElementById("ok").classList.remove("hide");
-  } // senão, fica no gate
+  } // senão, permanece no gate
 })();
 </script>
 </body>
