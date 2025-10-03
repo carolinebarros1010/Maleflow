@@ -19,12 +19,22 @@
 </style>
 </head>
 <body>
-      <!-- Conteúdo liberado -->
+  <div class="wrap">
+
+    <!-- GATE (portinha) -->
+    <div id="gate" class="card">
+      <h1>Start MaleFlow — acesso guiado</h1>
+      <p class="muted">Para liberar o plano, passe pelo assistente rápido (ajusta o material ao seu objetivo).</p>
+      <a class="btn" id="goBot" href="#">Abrir assistente</a>
+      <p id="err" class="muted"></p>
+    </div>
+
+    <!-- CONTEÚDO LIBERADO -->
     <div id="ok" class="card hide">
       <h1>Seu plano de 7 dias</h1>
       <p class="muted">Guarde este link. Se preferir, peça o PDF no Whats.</p>
 
-     <!-- Dias 1–7 (conteúdo resumido que já definimos) -->
+      <!-- Dias 1–7 -->
       <div class="day">
         <h3>Dia 1 — Treino A (Peito)</h3>
         <ul>
@@ -99,43 +109,30 @@
         </ul>
       </div>
 
-      <p class="muted">Próximo passo: <a class="btn" href="/#ofertas">Strong (App + Whats) ou Elite (TP + Premium)</a></p>
+      <!-- CTA de retorno -->
+      <div class="card" style="margin-top:2rem;text-align:center;">
+        <h2 style="color:#335953;margin-bottom:.5rem;">Você sentiu o Start...</h2>
+        <p class="muted" style="margin-bottom:1rem;line-height:1.6;">
+          7 dias provam que o método funciona. Resultado consistente vem com plano completo.
+        </p>
+        <a href="/#ofertas" class="btn" style="margin:.5rem;display:inline-block;">
+          🔥 Subir para o Strong — App + Whats (R$119,90)
+        </a>
+        <a href="/#ofertas" class="btn" style="background:#1f2937;margin:.5rem;display:inline-block;">
+          🚀 Ir direto para o Elite — App/TrainingPeaks + Premium (R$199,90)
+        </a>
+      </div>
     </div>
-  </div>
-  
-<div class="card" style="margin-top:2rem;text-align:center;">
-  <h2 style="color:#335953;margin-bottom:.5rem;">Você sentiu o Start...</h2>
-  <p style="color:#444;margin-bottom:1rem;line-height:1.6;">
-    Mas 7 dias não mudam sua história. Eles só provaram que o método funciona.  
-    O verdadeiro resultado vem quando você fecha o ciclo completo: consistência, ajuste e evolução real.  
-  </p>
-  
-  <a href="/#ofertas" class="btn" style="margin:.5rem;display:inline-block;">
-    🔥 Subir para o Strong — App + Whats (R$119,90)
-  </a>
-  <a href="/#ofertas" class="btn" style="background:#1f2937;margin:.5rem;display:inline-block;">
-    🚀 Ir direto para o Elite — App/TrainingPeaks + Premium (R$199,90)
-  </a>
 
-  <p class="muted" style="margin-top:1rem;">
-    Você já deu o primeiro passo. Agora escolha como quer continuar.<br>
-    Cada semana sem consistência é força desperdiçada.
-  </p>
-</div>
-
-<script>
-
-      <p class="muted">Próximo passo: <a class="btn" href="/#ofertas">Strong (App + Whats) ou Elite (TP + Premium)</a></p>
-    </div>
   </div>
 
 <script>
 /* ===== Config ===== */
-const TYPEBOT_URL = "https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw"; // <- troque aqui
+const TYPEBOT_URL = "https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw"; // OK em https
 const LS_KEY = "mf_7dias_token";
-const TTL_MIN = 60; // quanto tempo (min) o acesso fica “lembrado” no navegador
+const TTL_MIN = 60;
 
-/* Util: UTM pass-through */
+/* UTM pass-through */
 function pickUTM(searchParams){
   const p = new URLSearchParams(searchParams);
   const keep = new URLSearchParams();
@@ -146,20 +143,15 @@ function pickUTM(searchParams){
 }
 function makeRedirectUrl(){
   const red = new URL(location.href);
-  // limpa params antigos para não acumular
   red.search = "";
   red.searchParams.set("from","typebot");
-  // repassa UTM
   const utm = pickUTM(location.search);
   utm.forEach((v,k)=> red.searchParams.set(k,v));
   return red.toString();
 }
 
-/* Tokenzinho “de cortesia” (não é segurança real) */
-function genSoftToken(){
-  // timestamp + random base36
-  return (Date.now().toString(36) + Math.random().toString(36).slice(2,10)).toUpperCase();
-}
+/* Token leve (não é segurança real) */
+function genSoftToken(){ return (Date.now().toString(36)+Math.random().toString(36).slice(2,10)).toUpperCase(); }
 function saveToken(){
   const payload = { t: genSoftToken(), exp: Date.now() + TTL_MIN*60*1000 };
   localStorage.setItem(LS_KEY, JSON.stringify(payload));
@@ -179,17 +171,16 @@ function readToken(){
 (function(){
   const params = new URLSearchParams(location.search);
   const from = params.get("from");
-  const soft = params.get("s"); // opcional: ?s=qualquercoisa vindo do bot
   const cached = readToken();
 
-  // botão do gate -> manda para o Typebot com redirect de volta pra /7dias
+  // configura botão do gate
   const go = document.getElementById("goBot");
-  const redirectUrl = encodeURIComponent(makeRedirectUrl());
-  go.href = `${TYPEBOT_URL}?redirectUrl=${redirectUrl}`;
+  if (go) {
+    const redirectUrl = encodeURIComponent(makeRedirectUrl());
+    go.href = `${TYPEBOT_URL}?redirectUrl=${redirectUrl}`;
+  }
 
-  // regras de liberação “escondida”:
-  // 1) se veio do bot (?from=typebot), salva um token leve no localStorage
-  // 2) se já tem token válido no localStorage, libera direto
+  // libera conteúdo
   if (from === "typebot") {
     saveToken();
     document.getElementById("gate").classList.add("hide");
@@ -197,11 +188,7 @@ function readToken(){
   } else if (cached) {
     document.getElementById("gate").classList.add("hide");
     document.getElementById("ok").classList.remove("hide");
-  } else {
-    // fica na portinha
-    const err = document.getElementById("err");
-    err.textContent = soft ? "Sessão expirada. Reabra pelo assistente." : "";
-  }
+  } // senão, fica no gate
 })();
 </script>
 </body>
