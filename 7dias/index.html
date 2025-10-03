@@ -16,25 +16,31 @@
   .day{border:1px solid var(--border);border-radius:12px;padding:1rem;margin:.75rem 0}
   .muted{color:#6b7280}
   .hide{display:none}
-  /* imagem grande no topo do plano (mesma largura do card) */
-  .hero-img{width:100%;max-width:100%;border-radius:14px;margin:1rem 0 1.5rem;display:block}
-  .header-7dias {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
 
-.header-text {
-  flex: 1;
-}
-
-.header-img img {
-  max-height: 140px;  /* ajuste a altura que preferir */
-  width: auto;
-  display: block;
-}
+  /* ===== Header em duas colunas (título + logo ao lado) ===== */
+  .header-7dias{
+    display:grid;
+    grid-template-columns: 1fr auto; /* texto ocupa, logo encaixa */
+    gap:1rem;
+    align-items:center;
+    margin-bottom:1.25rem;
+  }
+  .header-text{min-width:0}
+  .header-img{
+    display:flex; align-items:center; justify-content:flex-end;
+  }
+  .header-img img{
+    height:120px;           /* controle de altura */
+    max-width:220px;        /* não deixa ficar largo demais */
+    width:auto;             /* mantém proporção */
+    object-fit:contain;     /* sem corte */
+    display:block;
+  }
+  @media (max-width:640px){
+    .header-7dias{ grid-template-columns:1fr; }
+    .header-img{ justify-content:flex-start; }
+    .header-img img{ height:80px; max-width:60%; }
+  }
 </style>
 </head>
 <body>
@@ -44,7 +50,6 @@
     <div id="gate" class="card">
       <h1>Start MaleFlow — acesso guiado</h1>
       <p class="muted">Para liberar o plano, passe pelo assistente rápido (ajusta o material ao seu objetivo).</p>
-      <!-- fallback com href direto (funciona mesmo sem JS) -->
       <a class="btn" id="goBot"
          href="https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw?redirectUrl=https%3A%2F%2Fwww.maleflow.com.br%2F7dias%3Ffrom%3Dtypebot">
         Abrir assistente
@@ -52,18 +57,19 @@
       <p id="err" class="muted"></p>
     </div>
 
-    <!-- CONTEÚDO LIBERADO (imagem grande + dias 1-7) -->
-    
+    <!-- CONTEÚDO LIBERADO -->
     <div id="ok" class="card hide">
-    <div class="header-7dias">
-  <div class="header-text">
-    <h1>Seu plano de 7 dias</h1>
-    <p class="muted">Guarde este link. Se preferir, peça o PDF no Whats.</p>
-  </div>
-  <div class="header-img">
-    <img src="./male-7dias-logo.png" alt="MaleFlow 7 Dias">
-  </div>
-</div>
+
+      <!-- Cabeçalho lado a lado -->
+      <div class="header-7dias">
+        <div class="header-text">
+          <h1>Seu plano de 7 dias</h1>
+          <p class="muted">Guarde este link. Se preferir, peça o PDF no Whats.</p>
+        </div>
+        <div class="header-img">
+          <img src="./assets/male-7dias-logo.png" alt="MaleFlow 7 Dias">
+        </div>
+      </div>
 
       <!-- Dias 1–7 -->
       <div class="day">
@@ -141,7 +147,7 @@
       </div>
     </div><!-- /#ok -->
 
-    <!-- CTA de retorno (fora do bloco do plano, como você pediu) -->
+    <!-- CTA de retorno (fora do bloco do plano) -->
     <div class="card" id="upsell" style="margin-top:2rem;text-align:center;">
       <h2 style="color:#335953;margin-bottom:.5rem;">Você sentiu o Start...</h2>
       <p class="muted" style="margin-bottom:1rem;line-height:1.6;">
@@ -159,7 +165,7 @@
 
 <script>
 /* ===== Config ===== */
-const TYPEBOT_URL = "https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw"; // link público (https)
+const TYPEBOT_URL = "https://automacao.chatideal.com.br/maleflowfluxo-xt1qnhw";
 const LS_KEY = "mf_7dias_token";
 const TTL_MIN = 60; // minutos de passe local
 
@@ -204,7 +210,7 @@ function readToken(){
   const from = params.get("from");
   const cached = readToken();
 
-  // configura botão do gate (href já tem fallback, aqui só garantimos UTM dinâmica)
+  // configura botão do gate (href com redirect dinâmico)
   const go = document.getElementById("goBot");
   if (go) {
     const redirectUrl = encodeURIComponent(makeRedirectUrl());
@@ -225,3 +231,4 @@ function readToken(){
 </script>
 </body>
 </html>
+
