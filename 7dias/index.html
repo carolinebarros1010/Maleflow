@@ -41,6 +41,30 @@
     .header-img{ justify-content:flex-start; }
     .header-img img{ height:80px; max-width:60%; }
   }
+  .secret-badge{
+  display:inline-block;
+  margin-top:.25rem;
+  font-size:.9rem;
+  color:#0f3a33;
+  background:rgba(51,89,83,.08); /* teal translúcido */
+  border:1px dashed #335953;
+  border-radius:10px;
+  padding:.35rem .6rem;
+  font-weight:700;
+}
+.secret-note{
+  margin: .5rem 0 1rem;
+  background:#f7fbfa;
+  border:1px solid #e6ecea;
+  border-radius:12px;
+  padding:.75rem 1rem;
+}
+.secret-note > summary{
+  cursor:pointer; font-weight:800; color:#335953; outline:none;
+}
+.secret-note > p{
+  margin:.5rem 0 0; color:#334155; line-height:1.55;
+}
 </style>
 </head>
 <body>
@@ -56,7 +80,14 @@
       </a>
       <p id="err" class="muted"></p>
     </div>
-
+<details class="secret-note">
+  <summary>Por que não revelamos toda a metodologia?</summary>
+  <p>
+    O protocolo completo do MaleFlow é aplicado no seu plano, mas não divulgado passo a passo.
+    Fazemos isso para manter integridade do método, evitar cópias superficiais e garantir progresso
+    guiado — menos barulho, mais resultado.
+  </p>
+</details>
     <!-- CONTEÚDO LIBERADO -->
     <div id="ok" class="card hide">
 
@@ -153,12 +184,13 @@
       <p class="muted" style="margin-bottom:1rem;line-height:1.6;">
         7 dias provam que o método funciona. Resultado consistente vem com plano completo.
       </p>
-      <a href="/#ofertas" class="btn" style="margin:.5rem;display:inline-block;">
-        🔥 Subir para o Strong — App + Whats (R$119,90)
-      </a>
-      <a href="/#ofertas" class="btn" style="background:#1f2937;margin:.5rem;display:inline-block;">
-        🚀 Ir direto para o Elite — App/TrainingPeaks + Premium (R$199,90)
-      </a>
+    <a href="/#ofertas" class="btn" style="margin:.5rem;display:inline-block;">
+  🔥 Subir para o Strong — App + Whats (aplicação do método)
+</a>
+<a href="/#ofertas" class="btn" style="background:#1f2937;margin:.5rem;display:inline-block;">
+  🚀 Ir direto para o Elite — App/TrainingPeaks + Premium (camadas avançadas)
+</a>
+
     </div>
 
   </div><!-- /.wrap -->
