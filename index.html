@@ -3,428 +3,358 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MaleFlow | Força, Condicionamento e Consistência</title>
-  <meta name="description" content="Treino masculino baseado em ciência e constância: 7 dias de adaptação, Programa de 15 dias + eBook Fundamentos, Plano de 12 semanas e Consultoria Premium." />
-  <meta property="og:title" content="MaleFlow | Força, Condicionamento e Consistência" />
-  <meta property="og:description" content="Escolha seu plano e treine com método: 7 dias, 15 dias + eBook, 12 semanas ou Consultoria Premium." />
+  <title>MaleFlow | Performance Masculina</title>
+  <meta name="description" content="Treinamento masculino com ciência, tecnologia e acompanhamento individualizado: plano gratuito, plano Strong (app + Whats), e plano Elite (app ou TrainingPeaks + Whats + premium)." />
+  <meta property="og:title" content="MaleFlow | Performance Masculina" />
+  <meta property="og:description" content="Estrutura de treino para homens: força, potência e resistência com tecnologia e acompanhamento." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#335953" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Titulos: Rubik | Texto: Lato -->
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
   <style>
+    /* ======= PALETA MALEFLOW ======= */
     :root{
-      --teal:#335953;         /* primária MaleFlow */
-      --grafite:#1f2937;      /* texto principal */
-      --carvao:#111827;       /* títulos intensos */
-      --cinza:#6b7280;        /* texto secundário */
-      --fundo:#f7f9f8;        /* fundo claro */
-      --card:#ffffff;         /* cartões */
-      --borda:#dbe3e1;        /* linhas suaves */
-      --realce:#94a3b8;       /* detalhes discretos */
+      --primary:#335953;   /* Teal MaleFlow */
+      --gray-900:#1f2937;
+      --gray-700:#4b5563;
+      --gray-600:#5A5A5A;
+      --gray-300:#D9D9D9;
+      --bg:#ffffff;
+      --soft:#f5f7f6;
+      --border:#e6ecea;
     }
+
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--fundo);color:var(--grafite);font-family:Lato,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial}
-    a{color:var(--teal);text-decoration:none}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--gray-900);font-family:Lato,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial}
+    a{color:var(--primary);text-decoration:none}
     .container{width:min(1120px,92vw);margin-inline:auto}
 
-    /* Topbar em tons masculinos */
-    .topbar{
-      background:linear-gradient(90deg, rgba(51,89,83,1), rgba(31,41,55,1));
-      color:#fff;padding:.5rem 0;font-size:.95rem
-    }
+    /* Topbar em tons do MaleFlow */
+    .topbar{background:linear-gradient(90deg,#3A6A63,#2A4945);color:#fff;padding:.5rem 0;font-size:.95rem}
     .topbar .container{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap}
 
-    header{
-      position:sticky;top:0;z-index:50;
-      background:rgba(247,249,248,.85);
-      backdrop-filter:saturate(180%) blur(10px);
-      border-bottom:1px solid var(--borda)
-    }
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.5rem 0}
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;gap:1rem;flex-wrap:wrap}
     .brand{display:flex;align-items:center;gap:.75rem;font-weight:900}
     .logo-img{height:auto;max-height:72px;width:auto;display:block}
-    .cta-header{
-      padding:.65rem 1rem;background:var(--teal);color:#fff;border-radius:999px;
-      font-weight:800;box-shadow:0 6px 16px rgba(51,89,83,.25)
-    }
-
-    /* Hero */
-    .hero{
-      display:grid;grid-template-columns:1fr 1fr;
-      grid-template-areas:"text image";
-      gap:2rem;align-items:center;padding:3rem 0
-    }
-    .hero-text{grid-area:text}
-    .kicker{letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:900;font-size:.82rem}
-    h1{
-      font-family:"Rubik",system-ui,sans-serif;
-      color:var(--carvao);
-      line-height:1.05;margin:.35rem 0 1rem;
-      font-size:clamp(1.9rem,3.2vw + .9rem,3.2rem);
-      font-weight:900
-    }
-    .sub{font-size:1.08rem;color:var(--cinza)}
-    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.15rem}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-      padding:1rem 1.25rem;border-radius:14px;font-weight:900;border:2px solid transparent;
-      transition:.2s ease;cursor:pointer
-    }
-    .btn-primary{background:var(--teal);color:#fff;box-shadow:0 12px 24px rgba(51,89,83,.22)}
-    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 16px 28px rgba(51,89,83,.28)}
-    .btn-ghost{background:#fff;border-color:var(--borda);color:var(--grafite)}
-
-    .hero-media{
-      grid-area:image;border-radius:18px;overflow:hidden;
-      box-shadow:0 20px 40px rgba(51,89,83,.18);
-      aspect-ratio: 4 / 3; background:#fff
-    }
-    .hero-media picture,.hero-media img{
-      width:100%;height:100%;display:block;object-fit:cover
-    }
-
-    /* Seções e cards */
-    .section{padding:2.5rem 0}
-    .section h2{
-      font-family:"Rubik",system-ui,sans-serif;
-      font-weight:800;color:var(--carvao);
-      font-size:clamp(1.3rem,2vw + .8rem,2rem);margin:0 0 .75rem
-    }
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-    .card{background:var(--card);border:1px solid var(--borda);border-radius:18px;padding:1.2rem;box-shadow:0 10px 24px rgba(17,24,39,.06)}
-    .card h3{font-family:"Rubik",system-ui,sans-serif;margin:.2rem 0 .5rem}
-
-    /* Ofertas */
-    .offers{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-    .offer{
-      position:relative;background:linear-gradient(180deg,#fff,#fff 60%,#f3f7f6);
-      border:1px solid var(--borda);border-radius:22px;padding:1.25rem;box-shadow:0 16px 30px rgba(17,24,39,.08)
-    }
-    .badge{position:absolute;top:12px;right:12px;background:var(--teal);color:#fff;font-weight:900;font-size:.75rem;padding:.3rem .6rem;border-radius:999px}
-    .price{font-size:1.35rem;font-weight:900;color:var(--teal)}
-    .features{margin:.6rem 0 1rem;padding:0 0 0 1rem}
-    .features li{margin:.3rem 0}
-    .offer .btn{width:100%}
-
-    /* Benefícios */
-    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-
-    /* Bio */
-    .bio{display:grid;grid-template-columns:160px 1fr;gap:1rem;align-items:center;background:#fff;border:1px solid var(--borda);border-radius:18px;padding:1rem}
-    .bio img{width:160px;height:160px;object-fit:cover;border-radius:16px;box-shadow:0 10px 24px rgba(17,24,39,.08)}
-    .bio .who{font-weight:900}
-
-    .bio-texto{display:flex;flex-direction:column;justify-content:flex-start}
-    .bio-topo{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-    .bio-topo .who{font-weight:900}
-    .bio-topo a img{width:28px;height:28px;transition:transform .3s ease, filter .3s ease}
-    .bio-topo a:hover img{transform:scale(1.2);filter:drop-shadow(0 0 6px var(--teal))}
-
-    /* Dias */
-    .day{margin-bottom:1rem}
-    .day .btn{margin-right:.5rem;margin-bottom:.5rem}
-
-    /* FAQ */
-    details{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:1rem}
-    summary{font-weight:800;cursor:pointer}
-
-    /* Rodapé */
-    footer{padding:3rem 0 4rem;background:linear-gradient(180deg,#f3f7f6,#fff)}
-    .footgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1rem}
-    .small{font-size:.9rem;color:var(--cinza)}
-    .footnote{margin-top:1rem;font-size:.85rem;color:var(--cinza)}
-
-    /* Responsivo */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr;grid-template-areas:"image" "text"}
-      .logo-img{max-height:56px}
-      .cta-header{padding:.55rem .95rem;font-weight:800}
-      .offers{grid-template-columns:1fr 1fr}
-      .grid-3,.benefits{grid-template-columns:1fr 1fr}
-      .footgrid{grid-template-columns:1fr 1fr}
-      .bio{grid-template-columns:1fr}
-    }
+    .cta-header{padding:.7rem 1.1rem;background:var(--primary);color:#fff;border-radius:999px;font-weight:800;box-shadow:0 6px 16px rgba(51,89,83,.25)}
     @media (max-width:640px){
       .nav{justify-content:center}
       .cta-header{width:100%;text-align:center;margin-top:.25rem}
-      .offers,.grid-3,.benefits{grid-template-columns:1fr}
-      .footgrid{grid-template-columns:1fr}
     }
+
+    /* ======= HERO 50/50 — INVERTIDO PARA MALE ======= */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "image text"; /* invertido: imagem à esquerda, texto à direita */
+      gap:2rem; align-items:center; padding:3rem 0;
+    }
+    .hero-text{ grid-area:text; }
+    .hero-media{
+      grid-area:image;
+      border-radius:18px; overflow:hidden; box-shadow:0 20px 40px rgba(51,89,83,.18);
+      aspect-ratio: 4 / 3; background:#fff;
+    }
+    .hero-media picture,.hero-media img{width:100%;height:100%;display:block;object-fit:cover}
+    .kicker{letter-spacing:.1em;text-transform:uppercase;color:var(--primary);font-weight:900;font-size:.85rem}
+    h1{font-family:"Playfair Display",serif;line-height:1.05;margin:.4rem 0 1rem;font-size:clamp(1.9rem,3.2vw + 1rem,3.4rem)}
+    .sub{font-size:1.1rem;color:var(--gray-700)}
+    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.25rem}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:1rem 1.25rem;border-radius:14px;font-weight:900;border:2px solid transparent;transition:.2s ease;cursor:pointer}
+    .btn-primary{background:var(--primary);color:#fff;box-shadow:0 12px 24px rgba(51,89,83,.25)}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 16px 28px rgba(51,89,83,.28)}
+    .btn-ghost{background:#fff;border-color:var(--border);color:var(--gray-900)}
+
+    /* Seções e cards */
+    .section{ padding:2.5rem 0; }
+    .section h2{ font-family:"Playfair Display",serif; font-size:clamp(1.4rem,2vw + .8rem,2.2rem); margin:0 0 .75rem; color:var(--primary) }
+    .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .card{ background:#fff; border:1px solid var(--border); border-radius:18px; padding:1.2rem; box-shadow:0 10px 24px rgba(51,89,83,.08); }
+
+    /* Ofertas — 3 planos */
+    .offers{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .offer{ position:relative; background:linear-gradient(180deg,#fff, #fff 60%, #f2f6f5); border:1px solid var(--border); border-radius:22px; padding:1.25rem; box-shadow:0 16px 30px rgba(51,89,83,.10); }
+    .badge{ position:absolute; top:12px; right:12px; background:var(--primary); color:#fff; font-weight:900; font-size:.75rem; padding:.3rem .6rem; border-radius:999px; }
+    .price{ font-size:1.4rem; font-weight:900; color:var(--primary); }
+    .features{ margin:.6rem 0 1rem; padding:0; list-style:none; }
+    .features li{ position:relative; margin:0 0 .5rem 0; padding-left:1.2rem; }
+    .features li::before{ content:"•"; position:absolute; left:0; top:.15rem; font-weight:700; line-height:1; color:var(--gray-600); }
+    .offer .btn{ width:100%; }
+
+    /* Benefícios */
+    .benefits{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+
+    /* Bio/Parcerias */
+    .bio{ display:grid; grid-template-columns:160px 1fr; gap:1rem; align-items:center; background:#fff; border:1px solid var(--border); border-radius:18px; padding:1rem; }
+    .bio img{ width:160px; height:160px; object-fit:cover; border-radius:16px; box-shadow:0 10px 24px rgba(51,89,83,.12); }
+    .bio .who{ font-weight:900; }
+
+    .bio-texto{display:flex;flex-direction:column;justify-content:flex-start}
+    .bio-topo{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+    .bio-topo a img{width:28px;height:28px;transition:transform .3s ease, filter .3s ease}
+    .bio-topo a:hover img{transform:scale(1.2);filter:drop-shadow(0 0 6px rgba(51,89,83,.6))}
+
+    /* Bloco vídeo + cards — INVERTÍVEL */
+    .ff-section{background:var(--soft)}
+    .ff-container{max-width:1120px;margin:0 auto;padding:2.5rem 1rem}
+    .ff-title{font-family:"Playfair Display",serif;font-weight:800;font-size:clamp(1.6rem,2.3vw,2.4rem);color:var(--primary);margin:0 0 1.25rem}
+
+    .ff-layout{
+      display:grid;
+      grid-template-columns: 1fr 1.1fr;
+      grid-template-areas: "video stack"; /* padrão: vídeo à esquerda, cards à direita */
+      gap:1.5rem; align-items:start;
+    }
+    .ff-video{grid-area:video;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:9/16;max-width:340px;margin:0 auto;position:relative}
+    .ff-video video{width:100%;height:100%;object-fit:contain;display:block;background:#000;border-radius:18px}
+    .ff-video::after{content:"▶";font-size:3rem;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .ff-stack{grid-area:stack;display:flex;flex-direction:column;gap:1rem}
+    .ff-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.25rem;box-shadow:0 10px 24px rgba(51,89,83,.06)}
+    .ff-card h3{font-size:1.1rem;margin:0 0 .5rem;color:var(--gray-900);font-weight:800}
+    .ff-card p{color:var(--gray-700);line-height:1.55;margin:0}
+    .ff-link{display:inline-block;margin-top:.75rem;font-weight:800;color:var(--primary)}
+    .ff-link:hover{text-decoration:underline}
+
+    /* Responsivo */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;grid-template-areas:"image" "text";}
+      .offers{ grid-template-columns:1fr 1fr; }
+      .grid-3, .benefits{ grid-template-columns:1fr 1fr; }
+      .bio{ grid-template-columns:1fr; }
+      .ff-layout{grid-template-columns:1fr;grid-template-areas:"video" "stack";}
+    }
+    @media (max-width:640px){
+      .offers, .grid-3, .benefits{ grid-template-columns:1fr; }
+    }
+
+    /* Rodapé */
+    footer{ padding:3rem 0 4rem; background:linear-gradient(180deg, #eef3f2, #fff); }
+    .footgrid{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:1rem; }
+    .small{ font-size:.9rem; color:#6b7280; }
+    .footnote{ margin-top:1rem; font-size:.85rem; color:#6b7280; }
+    @media (max-width:980px){ .footgrid{grid-template-columns:1fr 1fr} }
+    @media (max-width:640px){ .footgrid{grid-template-columns:1fr} }
   </style>
 </head>
-
-<body>
+<body class="male">
   <div class="topbar">
     <div class="container">
-      <span>🎁 <b>7 dias de adaptação</b> • </span>
-      <span>💬 Suporte humano • </span>
-      <span>🔒 Pagamento 100% seguro</span>
+      <span>🎁 <b>Plano Start gratuito</b> • </span>
+      <span>💬 Acompanhamento humano • </span>
+      <span>🔒 Pagamento seguro</span>
     </div>
   </div>
 
   <header>
     <div class="container nav">
       <div class="brand">
-        <!-- Troque pelo arquivo do logo MaleFlow -->
-        <img src="./assets/maleflow-logo.png" alt="Logo MaleFlow" class="logo-img" />
+        <!-- Troque o caminho da logo para a do MaleFlow -->
+        <img src="./assets/logo-maleflow.png" alt="Logo MaleFlow" class="logo-img" />
       </div>
       <a class="cta-header" href="#ofertas">Começar agora</a>
     </div>
   </header>
 
   <main class="container">
+    <!-- HERO (invertido: imagem esquerda / texto direita) -->
     <section class="hero" id="inicio">
+      <div class="hero-media">
+        <picture>
+          <source srcset="./assets/male-hero.webp" type="image/webp">
+          <img src="./assets/male-hero.jpg" alt="Treinamento masculino de performance" loading="eager" width="960" height="720">
+        </picture>
+      </div>
       <div class="hero-text">
-        <div class="kicker">Treino masculino • método e constância</div>
-        <h1>Construa força, condicionamento e um corpo funcional — com progressão simples e eficiente.</h1>
-        <p class="sub">Protocolos de força e cardio orientados por PSE, mobilidade e respiração para recuperar melhor, render mais e manter consistência no longo prazo.</p>
+        <div class="kicker">Método masculino • performance real</div>
+        <h1>Força, potência e resistência — com tecnologia e acompanhamento.</h1>
+        <p class="sub">Treinos pensados para o corpo masculino, com estrutura clara, controle de carga por PSE e integração com app ou TrainingPeaks (Garmin).</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#ofertas">Ver planos</a>
           <a class="btn btn-ghost" href="#como-funciona">Como funciona</a>
         </div>
       </div>
+    </section>
 
-      <div class="hero-media">
-        <picture>
-          <!-- Coloque sua imagem .webp e um fallback .jpg/.png -->
-          <source srcset="./assets/hero-male.webp" type="image/webp">
-          <img src="./assets/hero-male.jpg"
-               alt="Treino masculino MaleFlow"
-               loading="eager" width="960" height="720">
-        </picture>
+    <!-- BLOCO VÍDEO + CARDS (padrão invertido já com vídeo à esquerda / cards à direita) -->
+    <section class="ff-section" id="como-funciona">
+      <div class="ff-container">
+        <h2 class="ff-title">Como funciona na prática</h2>
+
+        <div class="ff-layout">
+          <!-- ESQUERDA: VÍDEO 9:16 -->
+          <div class="ff-video">
+            <video controls preload="metadata" playsinline poster="/assets/male-capa-video.png">
+              <source src="/assets/male-video.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+              <source src="/assets/male-video.webm" type="video/webm">
+              Seu navegador não suporta vídeo HTML5.
+              <a href="/assets/male-video.mp4">Baixar vídeo</a>.
+            </video>
+          </div>
+
+          <!-- DIREITA: CARDS -->
+          <div class="ff-stack">
+            <article class="ff-card">
+              <h3>Controle de carga</h3>
+              <p>Progressão orientada por PSE (esforço percebido) e métricas simples — para evoluir sem estagnar ou se lesionar.</p>
+            </article>
+
+            <article class="ff-card">
+              <h3>Força + cardio com propósito</h3>
+              <p>Ênfase em grandes básicos (agachar, empurrar, puxar) e condicionamento que melhora o jogo real: VO₂, limiar e submáximo bem distribuídos.</p>
+            </article>
+
+            <article class="ff-card">
+              <h3>Tecnologia integrada</h3>
+              <p>Acesso via App ou TrainingPeaks (Garmin) + suporte no WhatsApp para tirar dúvidas e ajustar o plano.</p>
+              <a class="ff-link" href="#ofertas">Escolher meu plano</a>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
-  </main>
 
-  <section class="section" id="como-funciona">
-    <h2>Como o MaleFlow acelera a sua evolução</h2>
-    <div class="grid-3">
-      <div class="card">
-        <h3>Pilares de Força</h3>
-        <p>Agachar, puxar, empurrar e hinge (levantar). Progressão clara, volume bem dosado e técnica que protege articulações.</p>
-      </div>
-      <div class="card">
-        <h3>Condicionamento Inteligente</h3>
-        <p>Cardio polarizado por PSE (sub, limiar, VO₂) para subir capacidade sem “moer” você todo dia.</p>
-      </div>
-      <div class="card">
-        <h3>Mobilidade & Respiração</h3>
-        <p>Rotinas curtas para aliviar tensão, melhorar postura e acelerar a recuperação entre treinos.</p>
-        <a class="btn" href="https://wa.me/5511986956313?text=Quero+saber+mais+sobre+o+MaleFlow">Conhecer mais</a>
-      </div>
-    </div>
-  </section>
+    <!-- RESPONSÁVEL (mantido) -->
+    <section class="section" id="responsavel">
+      <h2>Responsável Técnico</h2>
+      <div class="bio">
+        <picture>
+          <img src="./assets/Blank-Template-Instagram.jpg" alt="Responsável pelo Método" loading="lazy" />
+        </picture>
 
-  <section class="section" id="responsavel">
-    <h2>Responsável pelo Método</h2>
-    <div class="bio">
-      <picture>
-        <img src="./assets/coach-male.jpg" alt="Responsável pelo Método MaleFlow" loading="lazy" />
-      </picture>
-
-      <div class="bio-texto">
-        <div class="bio-topo">
-          <div class="who">Ricardo — CREF-208228-G/SP</div>
-          <a href="https://www.instagram.com/ricardojrgram/" target="_blank" rel="noopener noreferrer">
-            <img src="./assets/instagram-logo.png" alt="Instagram" />
-          </a>
+        <div class="bio-texto">
+          <div class="bio-topo">
+            <div class="who">Ricardo — CREF-208228-G/SP</div>
+            <a href="https://www.instagram.com/ricardojrgram/" target="_blank" rel="noopener noreferrer">
+              <img src="./assets/instagram-logo.png" alt="Instagram" />
+            </a>
+          </div>
+          <p>Educador físico e treinador responsável pelo MaleFlow. Metodologia com foco em força, potência, condicionamento e constância sustentável.</p>
+          <p class="small">Atendimento online e programas estruturados. Dúvidas?
+            <a href="https://wa.me/551151942268" target="_blank" rel="noopener noreferrer">Fale no WhatsApp</a>.
+          </p>
         </div>
-        <p>Educador físico e treinador responsável pelo MaleFlow. Metodologia prática para homens: força, condicionamento e hábitos sustentáveis — sem complicação.</p>
-        <p class="small">Atendimento online e programas estruturados. Dúvidas?
-          <a href="https://wa.me/551151942268" target="_blank" rel="noopener noreferrer">Fale no WhatsApp</a>.
-        </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="ofertas">
-    <h2>Escolha seu caminho</h2>
-    <div class="offers">
+    <!-- PARCERIAS (mantidas) -->
+    <section class="section" id="Parceria">
+      <h2>Parcerias</h2>
+      <div class="bio">
+        <picture>
+          <img src="./assets/nutrifernanda.png" alt="Nutricionista" loading="lazy" />
+        </picture>
 
-      <!-- 7 dias -->
-      <article class="offer">
-        <div class="badge">Gratuito</div>
-        <h3>7 dias de adaptação</h3>
-        <p>Experimente a rotina, ajuste técnica e pegue tração.</p>
-        <p class="price">R$ 0</p>
-        <ul class="features">
-          <li>Plano de 7 dias focado em hábito e mobilidade</li>
-          <li>Força leve + cardio submáximo (tempo em minutos)</li>
-          <li>Respiração e soltura para diminuir tensão</li>
-          <li>Acesso ao Typebot para onboarding</li>
+        <div class="bio-texto">
+          <div class="bio-topo">
+            <div class="who">Fernanda Secco — CRN 347513</div>
+            <a href="https://www.instagram.com/nutri_fernandasecco/" target="_blank" rel="noopener noreferrer">
+              <img src="./assets/instagram-logo.png" alt="Instagram" />
+            </a>
+          </div>
+          <p>Nutrição esportiva aplicada à performance e recuperação. Protocolos alinhados ao objetivo de força e composição corporal.</p>
+          <p class="small">Atendimento online. Dúvidas?
+            <a href="https://wa.me/5511986956313" target="_blank" rel="noopener noreferrer">Fale no WhatsApp</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFERTAS (3 PRODUTOS) -->
+    <section class="section" id="ofertas">
+      <h2>Escolha seu plano</h2>
+      <div class="offers">
+        <!-- GRATUITO -->
+        <article class="offer">
+          <div class="badge">Gratuito</div>
+          <h3>Plano Start</h3>
+          <p>Entre no método sem custo e organize sua rotina de treino.</p>
+          <p class="price">R$ 0</p>
+          <ul class="features">
+            <li>Guia de 7 dias para criar hábito</li>
+            <li>Exercícios base (força + mobilidade)</li>
+            <li>Orientações simples de recuperação</li>
+          </ul>
+          <a class="btn btn-primary" href="#plano-start">Começar grátis</a>
+        </article>
+
+        <!-- STRONG 119,90 (2 modalidades: App + Whats) -->
+        <article class="offer">
+          <div class="badge">Strong</div>
+          <h3>Plano Strong</h3>
+          <p>Para quem quer consistência com duas frentes de suporte.</p>
+          <p class="price">R$ 119,90</p>
+          <ul class="features">
+            <li>Acesso ao App (treinos estruturados)</li>
+            <li>Suporte via WhatsApp</li>
+            <li>Progressão por PSE e metas semanais</li>
+          </ul>
+          <a class="btn btn-primary" href="#" data-link="CHECKOUT_STRONG">Garantir meu Strong</a>
+        </article>
+
+        <!-- ELITE 199,90 (3 modalidades + premium) -->
+        <article class="offer">
+          <div class="badge">Elite</div>
+          <h3>Plano Elite</h3>
+          <p>O pacote completo para performance e controle total.</p>
+          <p class="price">R$ 199,90</p>
+          <ul class="features">
+            <li>Acesso ao <b>App</b> <u>ou</u> <b>TrainingPeaks (Garmin)</b></li>
+            <li>Assessoria no WhatsApp (dúvidas e ajustes)</li>
+            <li>Camada Premium: feedbacks e revisão mensal</li>
+          </ul>
+          <a class="btn btn-primary" href="#" data-link="CHECKOUT_ELITE">Quero o Elite</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- BENEFÍCIOS -->
+    <section class="section" id="beneficios">
+      <h2>O que os alunos relatam</h2>
+      <div class="benefits">
+        <div class="card"><h3>Mais força útil</h3><p>Base sólida nos grandes movimentos, com técnica e progressão.</p></div>
+        <div class="card"><h3>Condição em dia</h3><p>Cardio com propósito: VO₂, limiar e submáximo bem distribuídos.</p></div>
+        <div class="card"><h3>Resultados estáveis</h3><p>Rotina clara, métricas simples e ajustes contínuos.</p></div>
+      </div>
+    </section>
+
+    <!-- START DETALHE -->
+    <section class="section" id="plano-start">
+      <h2>Seu Start gratuito (7 dias)</h2>
+      <article class="card">
+        <ul>
+          <li>Mobilidade diária (6–10 min)</li>
+          <li>Força técnica 3x/semana (básicos com controle)</li>
+          <li>Cardio leve a moderado (2–3x/semana)</li>
+          <li>Respiração e sono como aliados</li>
         </ul>
-        <a class="btn btn-primary" href="#plano-7-dias">Começar grátis</a>
+        <a class="btn btn-ghost" href="#ofertas">Voltar aos planos</a>
       </article>
-
-      <!-- 15 dias -->
-      <article class="offer">
-        <div class="badge">Iniciante</div>
-        <h3>15 dias do zero + eBook Fundamentos</h3>
-        <p>Evolução segura + guia prático de treino, nutrição e recuperação.</p>
-        <p class="price"><del>R$ 80,00</del> agora <span class="price">R$ 39,90</span></p>
-        <ul class="features">
-          <li>Programa de 2 semanas com progressão de volume e intensidade</li>
-          <li>Treinos funcionais de 15 minutos — casa ou academia</li>
-          <li>eBook “Fundamentos do MaleFlow” (PDF)</li>
-          <li>Bônus: Protocolo de Respiração Antiestresse</li>
-        </ul>
-        <a class="btn btn-primary" href="#" data-link="CHECKOUT_15_DIAS">Quero começar</a>
-      </article>
-
-      <!-- 12 semanas -->
-      <article class="offer">
-        <div class="badge">Completo</div>
-        <h3>12 semanas de treinamento</h3>
-        <p>Periodização completa (3 meses) com força + cardio e ajustes por PSE.</p>
-        <p class="price"><del>R$ 160,00</del> agora <span class="price">R$ 119,90</span></p>
-        <ul class="features">
-          <li>Estrutura por PSE (sub, limiar, VO₂)</li>
-          <li>Planilhas semanais + progressões simples</li>
-          <li>Força integrada (peito/costas/pernas/core)</li>
-          <li>Suporte por e-mail/WhatsApp</li>
-        </ul>
-        <a class="btn btn-primary" href="#" data-link="CHECKOUT_12_SEMANAS">Garantir meu plano</a>
-      </article>
-
-      <!-- Premium -->
-      <article class="offer">
-        <div class="badge">Premium</div>
-        <h3>Consultoria Online Completa</h3>
-        <p>Acompanhamento pessoal, feedbacks semanais e ajustes contínuos.</p>
-        <p class="price"><del>R$ 300,00</del> agora <span class="price">R$ 259,90</span></p>
-        <ul class="features">
-          <li>Treino individualizado (musculação + endurance)</li>
-          <li>Revisões semanais e modulação de carga</li>
-          <li>Canal direto para dúvidas e relatórios</li>
-          <li>Onboarding via app + Typebot</li>
-        </ul>
-        <a class="btn btn-primary" href="https://automacao.chatideal.com.br/anamnese-g44p1wv"
-           target="_blank" rel="noopener noreferrer" data-link="WHATS_PREMIUM">Falar com o consultor</a>
-      </article>
-    </div>
-  </section>
-
-  <section class="section" id="beneficios">
-    <h2>Benefícios que os alunos relatam</h2>
-    <div class="benefits">
-      <div class="card"><h3>Mais desempenho</h3><p>Carga bem dosada e técnica consistente elevam força e capacidade de trabalho.</p></div>
-      <div class="card"><h3>Menos dor</h3><p>Ênfase em mobilidade e padrões de movimento protege joelhos, ombros e lombar.</p></div>
-      <div class="card"><h3>Resultados sustentáveis</h3><p>Sem atalhos: progresso simples, mensurável e que cabe na rotina.</p></div>
-    </div>
-  </section>
-
-  <section class="section" id="plano-7-dias">
-    <h2>Seu Plano de 7 Dias</h2>
-
-    <article class="card day">
-      <h3>Dia 1 — Mobilidade total + respiração</h3>
-      <ul>
-        <li>6–8 min mobilidade torácica/quadril</li>
-        <li>2×8 min (PSE 4/10): agachamento com apoio, ponte de glúteo, remada elástico, prancha 20–25s</li>
-        <li>5 min respiração coerente (5–6s insp/exp)</li>
-      </ul>
-      <a class="btn btn-ghost" href="https://www.youtube.com/shorts/w0MfiVldR34" target="_blank" rel="noopener">📹 Mobilidade torácica</a>
-    </article>
-
-    <article class="card day">
-      <h3>Dia 2 — Técnica de força (empurrar/puxar)</h3>
-      <ul>
-        <li>Ponte de glúteo 3×10–12</li>
-        <li>Remada elástico 3×12–15</li>
-        <li>Prancha 3×20–30s</li>
-        <li>Face pull elástico 2×12–15</li>
-      </ul>
-    </article>
-
-    <article class="card day">
-      <h3>Dia 3 — Cardio submáximo + mobilidade</h3>
-      <ul>
-        <li>20–30 min caminhada/pedal (PSE 3–4)</li>
-        <li>5–8 min mobilidade torácica + quadril</li>
-        <li>Respiração em caixa 4–4–4–4 por 3–5 min</li>
-      </ul>
-    </article>
-
-    <article class="card day">
-      <h3>Dia 4 — Força leve técnica</h3>
-      <ul>
-        <li>Agachamento com apoio 3×10–12</li>
-        <li>Face pull 3×12–15</li>
-        <li>Bird dog 3×8–10/lado</li>
-        <li>Abdução de quadril 2×12–15</li>
-      </ul>
-    </article>
-
-    <article class="card day">
-      <h3>Dia 5 — Core + soltura</h3>
-      <ul>
-        <li>Dead bug 3×8–10/lado</li>
-        <li>Prancha 3×25–35s</li>
-        <li>Mobilidade 6–8 min</li>
-      </ul>
-    </article>
-
-    <article class="card day">
-      <h3>Dia 6 — Cardio progressivo</h3>
-      <ul>
-        <li>25–35 min com leve progressão (terminar em PSE 6)</li>
-        <li>5 min mobilidade suave</li>
-      </ul>
-    </article>
-
-    <article class="card day">
-      <h3>Dia 7 — Recuperação ativa</h3>
-      <ul>
-        <li>Caminhada leve 20–30 min</li>
-        <li>Respiração coerente 5–6 min</li>
-        <li>Alongamentos leves</li>
-      </ul>
-    </article>
-  </section>
-
-  <section class="section" id="faq">
-    <h2>Perguntas frequentes</h2>
-    <div class="grid-3">
-      <details class="card">
-        <summary>Não tenho academia. Funciona em casa?</summary>
-        <p>Sim. Existem alternativas com peso do corpo e elásticos para manter estímulos de força e estabilidade.</p>
-      </details>
-      <details class="card">
-        <summary>Sou iniciante. Vou acompanhar?</summary>
-        <p>O método começa com técnica e carga baixa, subindo aos poucos. Você evolui sem se quebrar.</p>
-      </details>
-      <details class="card">
-        <summary>Tenho pouco tempo. Vale a pena?</summary>
-        <p>Blocos curtos e objetivos (15–30 min) já constroem base sólida quando feitos com consistência.</p>
-      </details>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer>
     <div class="container footgrid">
       <div>
         <div class="brand">
-          <img src="./assets/maleflow-logo.png" alt="Logo MaleFlow" class="logo-img" />
+          <img src="./assets/logo-maleflow.png" alt="Logo MaleFlow" class="logo-img" />
         </div>
-        <p class="small">© 2025 MaleFlow / MyFlowLife. Conteúdo educativo; não substitui aconselhamento médico. Consulte sua médica(o) antes de iniciar treino.</p>
+        <p class="small">© 2025 MaleFlow / MyFlowLife. Conteúdo educativo; não substitui aconselhamento médico. Consulte um(a) profissional antes de iniciar.</p>
         <p class="footnote">LGPD: coletamos dados apenas para entrega do plano e comunicações relacionadas. Você pode solicitar exclusão a qualquer momento.</p>
       </div>
       <div>
         <h4>Planos</h4>
         <ul class="small">
-          <li><a href="#ofertas">7 dias de adaptação</a></li>
-          <li><a href="#ofertas">15 dias + eBook</a></li>
-          <li><a href="#ofertas">12 semanas</a></li>
-          <li><a href="#ofertas">Premium</a></li>
+          <li><a href="#ofertas">Start (Grátis)</a></li>
+          <li><a href="#ofertas">Strong</a></li>
+          <li><a href="#ofertas">Elite</a></li>
         </ul>
       </div>
       <div>
         <h4>Contato</h4>
         <ul class="small">
-          <li><a href="mailto:contato@myflowlife.com.br">contato@myflowlife.com.br</a></li>
+          <li><a href="mailto:contato@maleflow.com.br">contato@maleflow.com.br</a></li>
           <li><a href="https://wa.me/551151942268">WhatsApp</a></li>
         </ul>
       </div>
@@ -433,10 +363,8 @@
 
   <script>
     const MAP = {
-      TYPEBOT_7_DIAS: '#plano-7-dias',
-      CHECKOUT_15_DIAS: 'https://go.hotmart.com/O102103923F?dp=1',
-      CHECKOUT_12_SEMANAS: '#', // troque pelo seu checkout real
-      WHATS_PREMIUM: 'https://automacao.chatideal.com.br/anamnese-g44p1wv'
+      CHECKOUT_STRONG: '#',            // Substituir pelo checkout (Hotmart/Mercado Pago)
+      CHECKOUT_ELITE:  '#',            // Substituir pelo checkout (Hotmart/Mercado Pago)
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -446,12 +374,11 @@
         if (!url || url === '#') return;
         a.setAttribute('href', url);
         if (/^https?:\/\//i.test(url)) {
-          a.setAttribute('target','_blank');
-          a.setAttribute('rel','noopener noreferrer');
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener noreferrer');
         }
       });
     });
   </script>
-  <!-- (Opcional) pixels/analytics -->
 </body>
 </html>
