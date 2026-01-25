@@ -9,7 +9,7 @@ window.FEMFLOW = window.FEMFLOW || {};
    1. CONFIG GLOBAL
 =========================================================== */
 
-FEMFLOW.API_BASE = "/api";
+FEMFLOW.API_BASE = "https://maleflow.com.br/api";
 FEMFLOW.SCRIPT_URL = FEMFLOW.API_BASE;
 FEMFLOW.API_URL = FEMFLOW.API_BASE;
 
@@ -17,11 +17,6 @@ FEMFLOW.buildApiUrl = function (params = {}, path = "") {
   const cleanPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
   const url = new URL(`${FEMFLOW.API_BASE}${cleanPath}`, window.location.origin);
   const finalParams = { ...params };
-
-  if (finalParams.acao && !finalParams.action) {
-    finalParams.action = finalParams.acao;
-    delete finalParams.acao;
-  }
 
   Object.entries(finalParams).forEach(([key, value]) => {
     if (value === undefined || value === null || value === "") return;
@@ -446,7 +441,7 @@ FEMFLOW.inserirHeaderApp = function () {
   const h = document.createElement("header");
   h.id = "femflowHeader";
   h.innerHTML = `
-    <img src="./assets/logofemflowterracotasf.png" class="ff-logo">
+    <img src="./assets/logo-maleflow.svg" class="ff-logo">
     <button id="ffMenuBtn" class="ff-menu-btn">&#9776;</button>
   `;
 
