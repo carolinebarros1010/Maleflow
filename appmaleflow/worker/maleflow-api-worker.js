@@ -21,7 +21,7 @@ export default {
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
-        headers: withDebug(corsHeaders(request), WORKER_ID),
+        headers: withDebug(corsHeaders(request), WORKER_ID)
       });
     }
 
@@ -80,7 +80,7 @@ export default {
         ...Object.fromEntries(incomingUrl.searchParams.entries()),
         ...(subpath ? { path: subpath } : {}),
         __via: "worker",
-        __originalMethod: request.method,
+        __originalMethod: request.method
       };
 
       if (bodyObj && typeof bodyObj === "object") {
@@ -108,7 +108,7 @@ export default {
         headers,
         body: method === "GET" || method === "HEAD" ? null : bodyText,
         redirect: "follow",
-        cf: { timeout: 15 },
+        cf: { timeout: 15 }
       });
     } catch (err) {
       return json(
@@ -116,7 +116,7 @@ export default {
           ok: false,
           error: "gas_unreachable",
           message: "Não foi possível conectar ao Google Apps Script",
-          details: String(err),
+          details: String(err)
         },
         502,
         request,
@@ -135,7 +135,7 @@ export default {
         error: "non_json_from_backend",
         status: upstream.status,
         message: "O backend retornou conteúdo não-JSON (provavelmente HTML).",
-        raw: upstreamText.slice(0, 4000),
+        raw: upstreamText.slice(0, 4000)
       };
     }
 
@@ -147,12 +147,12 @@ export default {
       headers: withDebug(
         {
           ...corsHeaders(request),
-          "Content-Type": "application/json; charset=utf-8",
+          "Content-Type": "application/json; charset=utf-8"
         },
         WORKER_ID
-      ),
+      )
     });
-  },
+  }
 };
 
 function corsHeaders(request) {
@@ -170,9 +170,9 @@ function corsHeaders(request) {
     Vary: [
       "Origin",
       "Access-Control-Request-Headers",
-      "Access-Control-Request-Method",
+      "Access-Control-Request-Method"
     ].join(", "),
-    ...(requestMethod ? { "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS" } : {}),
+    ...(requestMethod ? { "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS" } : {})
   };
 }
 
@@ -186,9 +186,9 @@ function json(obj, status, request, workerId) {
     headers: withDebug(
       {
         ...corsHeaders(request),
-        "Content-Type": "application/json; charset=utf-8",
+        "Content-Type": "application/json; charset=utf-8"
       },
       workerId
-    ),
+    )
   });
 }
