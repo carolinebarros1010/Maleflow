@@ -14,9 +14,25 @@ FEMFLOW.SCRIPT_URL = FEMFLOW.API_BASE;
 FEMFLOW.API_URL = FEMFLOW.API_BASE;
 
 FEMFLOW.buildApiUrl = function (params = {}, path = "") {
-  const cleanPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
-  const url = new URL(`${FEMFLOW.API_BASE}${cleanPath}`, window.location.origin);
   const finalParams = { ...params };
+  let resolvedPath = path;
+
+  if (!resolvedPath) {
+    const actionValue = finalParams.acao || finalParams.action;
+    if (actionValue) {
+      resolvedPath = String(actionValue);
+      delete finalParams.acao;
+      delete finalParams.action;
+    }
+  }
+
+  const cleanPath = resolvedPath
+    ? resolvedPath.startsWith("/")
+      ? resolvedPath
+      : `/${resolvedPath}`
+    : "";
+
+  const url = new URL(`${FEMFLOW.API_BASE}${cleanPath}`, window.location.origin);
 
   Object.entries(finalParams).forEach(([key, value]) => {
     if (value === undefined || value === null || value === "") return;
