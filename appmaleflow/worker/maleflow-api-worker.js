@@ -26,6 +26,13 @@ export default {
     }
 
     const incomingUrl = new URL(request.url);
+
+    if (incomingUrl.searchParams.get("debug") === "gas") {
+      return new Response(JSON.stringify({ gas: GAS_URL }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
     const subpath = incomingUrl.pathname.replace(/^\/api\/?/, "");
     const firstSegment = subpath ? subpath.split("/")[0] : "";
 
