@@ -189,6 +189,8 @@ if (res.deviceUpdated) {
     setTimeout(() => location.href = "home.html", 500);
   }
 
+  window.fazerLogin = entrar;
+
   $("#btnEntrar").onclick = entrar;
   $("#loginSenha").addEventListener("keydown", e => {
     if (e.key === "Enter") entrar();
