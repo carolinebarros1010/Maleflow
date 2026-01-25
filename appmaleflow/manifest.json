@@ -13,9 +13,9 @@
   "categories": ["health", "fitness", "education", "lifestyle"],
   "icons": [
     {
-      "src": "assets/logo-maleflow.svg",
+      "src": "assets/logomaleflow1.jpg",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/jpeg",
       "purpose": "any"
     },
     {
