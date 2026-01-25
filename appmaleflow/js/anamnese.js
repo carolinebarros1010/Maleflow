@@ -124,7 +124,7 @@ function getPerguntasTraduzidas() {
   const SCRIPT_URL =
     FEMFLOW?.SCRIPT_URL ||
     localStorage.getItem("maleflow_script") ||
-    "https://script.google.com/macros/s/AKfycbxPwSQqmrJiDX5299PdgXHd97r1tqvig2jgLP65EXXviKT0YwTL8CcxXsEzQTZTCepV/exec";
+    "./proxy.php";
 
   // ------------------------------------------------------------
   //  VALIDAÇÃO
