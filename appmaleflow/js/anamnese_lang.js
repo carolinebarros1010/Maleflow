@@ -16,71 +16,71 @@ FEMFLOW.anamneseLang = {
     perguntas: [
       {
         gif: "profile_form.webp",
-        texto: "Há quanto tempo você treina com consistência?",
+        texto: "Há quanto tempo você treina com regularidade?",
         opcoes: [
-          { texto: "Nunca ou menos de 3 meses 😅", v: 1 },
-          { texto: "Entre 3 meses e 1 ano 🧘‍♀️", v: 2 },
-          { texto: "Mais de 1 ano 💪", v: 3 }
+          { texto: "Nunca treinei ou menos de 3 meses", v: 1 },
+          { texto: "Entre 3 meses e 1 ano", v: 2 },
+          { texto: "Mais de 1 ano", v: 3 }
         ]
       },
 
       {
         gif: "routine_cycle.webp",
-        texto: "Quantos dias por semana você costuma treinar?",
+        texto: "Quantas vezes por semana você costuma treinar?",
         opcoes: [
-          { texto: "1–2 dias 💤", v: 1 },
-          { texto: "3–4 dias 🍑", v: 2 },
-          { texto: "5 ou mais 🔥", v: 3 }
+          { texto: "1–2 vezes", v: 1 },
+          { texto: "3–4 vezes", v: 2 },
+          { texto: "5 ou mais vezes", v: 3 }
         ]
       },
 
       {
         gif: "strength_training.webp",
-        texto: "Com que frequência você completa seus treinos planejados?",
+        texto: "Com que frequência você segue o treino até o fim?",
         opcoes: [
-          { texto: "Quando sobra tempo 😬", v: 1 },
-          { texto: "Quase sempre consigo ✔️", v: 2 },
-          { texto: "Sou extremamente disciplinada 🧠", v: 3 }
+          { texto: "Pulo treinos com frequência", v: 1 },
+          { texto: "Na maioria das vezes completo", v: 2 },
+          { texto: "Sou disciplinado e consistente", v: 3 }
         ]
       },
 
       {
         gif: "mobility_flow.webp",
-        texto: "Como você avalia sua consciência corporal?",
+        texto: "Como você avalia sua execução técnica?",
         opcoes: [
-          { texto: "Ainda me perco nos movimentos 😅", v: 1 },
-          { texto: "Corrijo alguns detalhes 👀", v: 2 },
-          { texto: "Domino bem os exercícios ✨", v: 3 }
+          { texto: "Ainda erro bastante a técnica", v: 1 },
+          { texto: "Executo bem a maioria dos exercícios", v: 2 },
+          { texto: "Tenho ótimo controle e consciência corporal", v: 3 }
         ]
       },
 
       {
         gif: "hormonal_balance.webp",
-        texto: "Como está sua recuperação e qualidade de sono?",
+        texto: "Como está sua recuperação entre os treinos?",
         opcoes: [
-          { texto: "Sono ruim e recuperação lenta 😴", v: 1 },
-          { texto: "Depende da semana ⚖️", v: 2 },
-          { texto: "Durmo bem e recupero rápido 🌙", v: 3 }
-        ]
-      },
-
-      {
-        gif: "menstrual_flow.webp",
-        texto: "Você percebe variações de energia ao longo do ciclo?",
-        opcoes: [
-          { texto: "Quase nunca percebo 🤔", v: 1 },
-          { texto: "Algumas fases me impactam 🔄", v: 2 },
-          { texto: "Ajusto treinos conforme o ciclo 🌸", v: 3 }
+          { texto: "Demoro a me recuperar / dores frequentes", v: 1 },
+          { texto: "Depende da intensidade", v: 2 },
+          { texto: "Recupero rápido e bem", v: 3 }
         ]
       },
 
       {
         gif: "strength_training.webp",
-        texto: "Como descreveria sua força e resistência hoje?",
+        texto: "Você sente dores ou tem alguma lesão atualmente?",
         opcoes: [
-          { texto: "Canso fácil ou fico dolorida 🥴", v: 1 },
-          { texto: "Tolero treinos moderados 🌿", v: 2 },
-          { texto: "Treinos fortes são tranquilos 💪", v: 3 }
+          { texto: "Sim, dores frequentes ou lesão ativa", v: 1 },
+          { texto: "Às vezes sinto desconforto", v: 2 },
+          { texto: "Não sinto dores nem limitações", v: 3 }
+        ]
+      },
+
+      {
+        gif: "strength_training.webp",
+        texto: "Como você descreveria sua força e resistência hoje?",
+        opcoes: [
+          { texto: "Baixa — canso rápido", v: 1 },
+          { texto: "Moderada — consigo manter o ritmo", v: 2 },
+          { texto: "Alta — treino pesado sem problemas", v: 3 }
         ]
       },
 
@@ -88,9 +88,9 @@ FEMFLOW.anamneseLang = {
         gif: "breath_cycle.webp",
         texto: "Como está seu nível de estresse no dia a dia?",
         opcoes: [
-          { texto: "Sinto-me sobrecarregada 😩", v: 1 },
-          { texto: "Oscila conforme a semana 🌤️", v: 2 },
-          { texto: "Equilibrado e sob controle 🧘‍♀️", v: 3 }
+          { texto: "Muito alto", v: 1 },
+          { texto: "Moderado", v: 2 },
+          { texto: "Baixo e bem controlado", v: 3 }
         ]
       }
     ]
