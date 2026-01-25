@@ -14,7 +14,9 @@ header("Pragma: no-cache");
 
 // Preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  header("Content-Type: application/json; charset=UTF-8");
   http_response_code(200);
+  echo json_encode(["ok" => true]);
   exit;
 }
 
@@ -51,6 +53,32 @@ $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
+if ($response === false) {
+  header("Content-Type: application/json; charset=UTF-8");
+  http_response_code(502);
+  echo json_encode([
+    "ok" => false,
+    "error" => "proxy_error",
+    "status" => 502
+  ]);
+  exit;
+}
+
+$decoded = json_decode($response, true);
+$isJson = json_last_error() === JSON_ERROR_NONE;
+
 // Retorno
 http_response_code($httpCode);
+header("Content-Type: application/json; charset=UTF-8");
+
+if (!$isJson) {
+  echo json_encode([
+    "ok" => false,
+    "error" => "non_json_response",
+    "status" => $httpCode,
+    "raw" => $response
+  ]);
+  exit;
+}
+
 echo $response;
