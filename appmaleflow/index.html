@@ -69,22 +69,39 @@
     </div>
   </div>
 
+```html
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  // Debug rápido (pode remover depois)
+  console.log("✅ LOGIN SCRIPT CARREGADO", new Date().toISOString());
 
   window.FEMFLOW = window.FEMFLOW || {};
 
-  const $ = sel => document.querySelector(sel);
+  const $ = (sel) => document.querySelector(sel);
   const msg = $("#mensagem");
 
-  const setErr = t => { msg.textContent = t; msg.style.color = "#cc6a5a"; };
-  const setMsg = (t, ok=false) => {
+  const setErr = (t) => {
+    if (!msg) return;
+    msg.textContent = t;
+    msg.style.color = "#cc6a5a";
+  };
+  const setMsg = (t, ok = false) => {
+    if (!msg) return;
     msg.textContent = t;
     msg.style.color = ok ? "#2e7d32" : "#335953";
   };
 
-  async function postGAS(p){
+  // ---------- API helper ----------
+  async function postGAS(p) {
+    if (!window.FEMFLOW?.apiPost) {
+      console.error("FEMFLOW.apiPost não disponível. maleflow-core.js carregou?");
+      throw new Error("API indisponível");
+    }
+
+    // envia action também no corpo; query fica como compat (acao)
     const data = await FEMFLOW.apiPost({ acao: p.action }, p);
+
+    // Alguns proxies retornam string (HTML). Blindagem:
     if (typeof data === "string") {
       console.error("❌ Resposta não-JSON:", data);
       throw new Error("Servidor retornou HTML");
@@ -93,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
-     LOGIN NORMAL — FINAL
+     LOGIN NORMAL
   ============================================================ */
   async function syncCiclo(id) {
     if (!id) return null;
@@ -105,11 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  async function entrar(){
-    const email = $("#loginEmail").value.trim().toLowerCase();
-    const senha = $("#loginSenha").value.trim();
+  async function entrar() {
+    const email = ($("#loginEmail")?.value || "").trim().toLowerCase();
+    const senha = ($("#loginSenha")?.value || "").trim();
 
-    if (!email){
+    if (!email) {
       setErr("Digite seu e-mail.");
       return;
     }
@@ -122,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
         action: "login",
         email,
         senha,
-        deviceId: FEMFLOW.getDeviceId()
+        deviceId: FEMFLOW.getDeviceId?.() || ""
       });
     } catch (e) {
       console.error(e);
@@ -130,35 +147,37 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (res.status !== "ok") {
-      if (res.status === "blocked") {
+    if (!res || res.status !== "ok") {
+      const st = res?.status;
+
+      if (st === "blocked") {
         setErr("Esta conta já está conectada em outro dispositivo.");
         FEMFLOW.clearSession?.();
         return;
       }
 
-      if (res.status === "expired") {
+      if (st === "expired") {
         setErr(res.msg || "Sua assinatura expirou.");
         return;
       }
 
-      if (res.status === "inactive") {
+      if (st === "inactive") {
         setErr(res.msg || "Assinatura inativa.");
         return;
       }
 
-      if (res.status === "error" && res.msg === "device_required") {
+      if (st === "error" && res.msg === "device_required") {
         setErr("Não foi possível identificar o dispositivo. Tente novamente.");
         return;
       }
 
-      if (res.status === "senha_incorreta" || res.status === "not_registered") {
+      if (st === "senha_incorreta" || st === "not_registered") {
         setMsg("Complete seu cadastro para continuar ✨");
-        setTimeout(() => location.href = "anamnese_deluxe.html", 600);
+        setTimeout(() => (location.href = "anamnese_deluxe.html"), 600);
         return;
       }
 
-      setErr(res.msg || "E-mail ou senha incorretos.");
+      setErr(res?.msg || "E-mail ou senha incorretos.");
       return;
     }
 
@@ -167,32 +186,33 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("maleflow_id", res.id);
     localStorage.setItem("maleflow_email", res.email || email);
 
-    if (res.deviceId) {
-      localStorage.setItem(
-  "maleflow_device_id",
-  res.deviceId || FEMFLOW.getDeviceId()
-);
+    if (res.deviceId || FEMFLOW.getDeviceId?.()) {
+      localStorage.setItem("maleflow_device_id", res.deviceId || FEMFLOW.getDeviceId?.() || "");
     }
 
     if (res.sessionToken) {
-      FEMFLOW.setSessionToken(res.sessionToken);
+      FEMFLOW.setSessionToken?.(res.sessionToken);
     }
 
     await syncCiclo(res.id);
-    
-// 🧠 NOVO — reconciliação silenciosa
-if (res.deviceUpdated) {
-  console.info("🔁 Device atualizado automaticamente pelo backend");
-}
-    
+
+    // reconciliação silenciosa
+    if (res.deviceUpdated) {
+      console.info("🔁 Device atualizado automaticamente pelo backend");
+    }
+
     setMsg("Acesso liberado ✨", true);
-    setTimeout(() => location.href = "home.html", 500);
+    setTimeout(() => (location.href = "home.html"), 500);
   }
 
+  // ---------- compat global (corrige ReferenceError antigo) ----------
+  window.entrar = entrar;
   window.fazerLogin = entrar;
+  window._fazerLogin = entrar;
 
-  $("#btnEntrar").onclick = entrar;
-  $("#loginSenha").addEventListener("keydown", e => {
+  // ---------- binds ----------
+  $("#btnEntrar")?.addEventListener("click", entrar);
+  $("#loginSenha")?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") entrar();
   });
 
@@ -200,40 +220,44 @@ if (res.deviceUpdated) {
      BARRA DE FORÇA DA SENHA
   ============================================================ */
   const senhaInput = $("#loginSenha");
-  const toggleEye  = $("#toggleSenha");
-  const fill       = $("#strengthFill");
+  const toggleEye = $("#toggleSenha");
+  const fill = $("#strengthFill");
 
-  toggleEye.onclick = () => {
-    const isPass = senhaInput.type === "password";
-    senhaInput.type = isPass ? "text" : "password";
-    toggleEye.classList.toggle("active", isPass);
-  };
+  if (toggleEye && senhaInput) {
+    toggleEye.addEventListener("click", () => {
+      const isPass = senhaInput.type === "password";
+      senhaInput.type = isPass ? "text" : "password";
+      toggleEye.classList.toggle("active", isPass);
+    });
+  }
 
-  senhaInput.addEventListener("input", () => {
-    const v = senhaInput.value;
-    let score = 0;
+  if (senhaInput && fill) {
+    senhaInput.addEventListener("input", () => {
+      const v = senhaInput.value || "";
+      let score = 0;
 
-    if (v.length >= 6) score++;
-    if (/[A-Z]/.test(v) || /[0-9]/.test(v)) score++;
-    if (/[^A-Za-z0-9]/.test(v) || v.length >= 10) score++;
+      if (v.length >= 6) score++;
+      if (/[A-Z]/.test(v) || /[0-9]/.test(v)) score++;
+      if (/[^A-Za-z0-9]/.test(v) || v.length >= 10) score++;
 
-    const map = [
-      { w:0, c:"#d8d0cb" },
-      { w:33, c:"#cc6a5a" },
-      { w:66, c:"#e4a85f" },
-      { w:100, c:"#2e7d32" }
-    ];
+      const map = [
+        { w: 0, c: "#d8d0cb" },
+        { w: 33, c: "#cc6a5a" },
+        { w: 66, c: "#e4a85f" },
+        { w: 100, c: "#2e7d32" }
+      ];
 
-    fill.style.width = map[score]?.w + "%";
-    fill.style.background = map[score]?.c;
-  });
+      fill.style.width = (map[score]?.w ?? 0) + "%";
+      fill.style.background = map[score]?.c ?? "#d8d0cb";
+    });
+  }
 
   /* ============================================================
-     LOGIN GOOGLE — FINAL
+     LOGIN GOOGLE
   ============================================================ */
-  $("#googleSignIn").onclick = () => google.accounts.id.prompt();
+  $("#googleSignIn")?.addEventListener("click", () => google.accounts.id.prompt());
 
-  async function preencherComGoogle(response){
+  async function preencherComGoogle(response) {
     try {
       const data = jwt_decode(response.credential);
       if (!data?.email) return;
@@ -242,10 +266,10 @@ if (res.deviceUpdated) {
         action: "login",
         email: data.email,
         senha: "",
-        deviceId: FEMFLOW.getDeviceId()
+        deviceId: FEMFLOW.getDeviceId?.() || ""
       });
 
-      if (res.status !== "ok") {
+      if (!res || res.status !== "ok") {
         location.href = "anamnese_deluxe.html";
         return;
       }
@@ -254,63 +278,64 @@ if (res.deviceUpdated) {
       localStorage.setItem("maleflow_id", res.id);
       localStorage.setItem("maleflow_email", res.email || data.email);
 
-      if (res.deviceId) {
-        localStorage.setItem(
-  "maleflow_device_id",
-  res.deviceId || FEMFLOW.getDeviceId()
-);
+      if (res.deviceId || FEMFLOW.getDeviceId?.()) {
+        localStorage.setItem("maleflow_device_id", res.deviceId || FEMFLOW.getDeviceId?.() || "");
       }
 
       if (res.sessionToken) {
-        FEMFLOW.setSessionToken(res.sessionToken);
+        FEMFLOW.setSessionToken?.(res.sessionToken);
       }
 
       await syncCiclo(res.id);
-
-      setTimeout(() => location.href = "home.html", 500);
-
+      setTimeout(() => (location.href = "home.html"), 500);
     } catch (e) {
       console.warn("Erro Google:", e);
+      setErr("Falha ao entrar com Google.");
     }
   }
   window.preencherComGoogle = preencherComGoogle;
 
   /* ============================================================
-     LOGIN BIOMETRIA — FINAL
+     LOGIN BIOMETRIA
   ============================================================ */
   const bio = $("#bioSignIn");
 
   (async () => {
-    if (window.PublicKeyCredential &&
-        await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()){
-      bio.style.display = "flex";
-    }
+    try {
+      if (
+        bio &&
+        window.PublicKeyCredential &&
+        (await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())
+      ) {
+        bio.style.display = "flex";
+      }
+    } catch {}
   })();
 
-  bio.onclick = async () => {
+  bio?.addEventListener("click", async () => {
     try {
-      const email = $("#loginEmail").value.trim();
-      if (!email){
+      const email = ($("#loginEmail")?.value || "").trim().toLowerCase();
+      if (!email) {
         setErr("Digite seu e-mail.");
         return;
       }
 
       await navigator.credentials.create({
-        publicKey:{
+        publicKey: {
           challenge: crypto.getRandomValues(new Uint8Array(32)),
-          rp:{ name:"FemFlow" },
-          user:{
+          rp: { name: "FemFlow" },
+          user: {
             id: new TextEncoder().encode(email),
             name: email,
             displayName: email
           },
-          pubKeyCredParams:[
-            { type:"public-key", alg:-7 },
-            { type:"public-key", alg:-257 }
+          pubKeyCredParams: [
+            { type: "public-key", alg: -7 },
+            { type: "public-key", alg: -257 }
           ],
-          authenticatorSelection:{
-            authenticatorAttachment:"platform",
-            userVerification:"required"
+          authenticatorSelection: {
+            authenticatorAttachment: "platform",
+            userVerification: "required"
           }
         }
       });
@@ -319,44 +344,42 @@ if (res.deviceUpdated) {
         action: "login",
         email,
         senha: "",
-        deviceId: FEMFLOW.getDeviceId()
+        deviceId: FEMFLOW.getDeviceId?.() || ""
       });
 
-      if (res.status !== "ok") return;
+      if (!res || res.status !== "ok") {
+        setErr(res?.msg || "Falha ao autenticar.");
+        return;
+      }
 
       localStorage.setItem("maleflow_auth", "yes");
       localStorage.setItem("maleflow_id", res.id);
       localStorage.setItem("maleflow_email", res.email || email);
 
-      if (res.deviceId) {
-        localStorage.setItem(
-  "maleflow_device_id",
-  res.deviceId || FEMFLOW.getDeviceId()
-);
-
+      if (res.deviceId || FEMFLOW.getDeviceId?.()) {
+        localStorage.setItem("maleflow_device_id", res.deviceId || FEMFLOW.getDeviceId?.() || "");
       }
 
       if (res.sessionToken) {
-        FEMFLOW.setSessionToken(res.sessionToken);
+        FEMFLOW.setSessionToken?.(res.sessionToken);
       }
 
       await syncCiclo(res.id);
 
       setMsg("Acesso liberado ✨", true);
-      setTimeout(() => location.href = "home.html", 600);
-
+      setTimeout(() => (location.href = "home.html"), 600);
     } catch (e) {
       console.warn(e);
       setErr("Falha ao usar biometria.");
     }
-  };
+  });
 
   /* ============================================================
-     RECUPERAR SENHA
+     RECUPERAR SENHA (corrigido: não usa scriptURL)
   ============================================================ */
-  $("#goRecuperar").onclick = async () => {
-    const email = $("#loginEmail").value.trim().toLowerCase();
-    if (!email){
+  $("#goRecuperar")?.addEventListener("click", async () => {
+    const email = ($("#loginEmail")?.value || "").trim().toLowerCase();
+    if (!email) {
       setErr("Digite seu e-mail para recuperar a senha.");
       return;
     }
@@ -364,65 +387,87 @@ if (res.deviceUpdated) {
     setMsg("Enviando instruções...");
 
     try {
-      const r = await fetch(scriptURL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action:"solicitarreset", email })
-      });
+      const data = await postGAS({ action: "solicitarreset", email });
 
-      const data = await r.json();
       if (data.status === "ok") setMsg("📬 Verifique seu e-mail!", true);
       else if (data.status === "notfound") setErr("E-mail não encontrado.");
-      else setErr("Erro ao solicitar redefinição.");
-
-    } catch (e){
+      else setErr(data.msg || "Erro ao solicitar redefinição.");
+    } catch (e) {
       console.error(e);
       setErr("Erro ao enviar solicitação.");
     }
-  };
+  });
 
   /* ============================================================
      IDIOMA (LOGIN)
   ============================================================ */
   const modalLang = $("#ff-lang-modal");
-  const btnLang   = $("#btnLoginLang");
+  const btnLang = $("#btnLoginLang");
 
-  btnLang.onclick = () => modalLang.classList.remove("hidden");
+  btnLang?.addEventListener("click", () => modalLang?.classList.remove("hidden"));
 
-  function aplicarIdiomaLogin(lang){
-    const T = {
-      pt:{ bem:"Bem-vindo", sub:"Acesse ou crie sua conta para iniciar seu Treino", email:"Seu e-mail", senha:"Sua senha", entrar:"Entrar", cad:"Ainda não tem conta? Cadastre-se", esq:"Esqueci minha senha" },
-      en:{ bem:"Welcome", sub:"Access or create your account to start your training", email:"Your email", senha:"Your password", entrar:"Login", cad:"Don’t have an account? Sign up", esq:"Forgot my password" },
-      fr:{ bem:"Bienvenue", sub:"Accédez ou créez votre compte pour commencer votre entraînement", email:"Votre e-mail", senha:"Votre mot de passe", entrar:"Entrer", cad:"Pas de compte ? S'inscrire", esq:"J’ai oublié mon mot de passe" }
-    }[lang] || T.pt;
-    const labels = {
-      pt: "Português",
-      en: "English",
-      fr: "Français"
+  function aplicarIdiomaLogin(lang) {
+    const packs = {
+      pt: {
+        bem: "Bem-vindo",
+        sub: "Acesse ou crie sua conta para iniciar seu Treino",
+        email: "Seu e-mail",
+        senha: "Sua senha",
+        entrar: "Entrar",
+        cad: "Ainda não tem conta? Cadastre-se",
+        esq: "Esqueci minha senha"
+      },
+      en: {
+        bem: "Welcome",
+        sub: "Access or create your account to start your training",
+        email: "Your email",
+        senha: "Your password",
+        entrar: "Login",
+        cad: "Don’t have an account? Sign up",
+        esq: "Forgot my password"
+      },
+      fr: {
+        bem: "Bienvenue",
+        sub: "Accédez ou créez votre compte pour commencer votre entraînement",
+        email: "Votre e-mail",
+        senha: "Votre mot de passe",
+        entrar: "Entrer",
+        cad: "Pas de compte ? S'inscrire",
+        esq: "J’ai oublié mon mot de passe"
+      }
     };
 
-    $("#tLoginBemVinda").textContent = T.bem;
-    $("#tLoginSub").textContent      = T.sub;
-    $("#loginEmail").placeholder     = T.email;
-    $("#loginSenha").placeholder     = T.senha;
-    $("#btnEntrar").textContent      = T.entrar;
-    $("#linkCadastro").textContent   = T.cad;
-    $("#goRecuperar").textContent    = T.esq;
-    btnLang.textContent              = `🌐 ${labels[lang] || labels.pt}`;
+    const T = packs[lang] || packs.pt;
+    const labels = { pt: "Português", en: "English", fr: "Français" };
+
+    const elBem = $("#tLoginBemVinda");
+    const elSub = $("#tLoginSub");
+    const elEmail = $("#loginEmail");
+    const elSenha = $("#loginSenha");
+    const elEntrar = $("#btnEntrar");
+    const elCad = $("#linkCadastro");
+    const elEsq = $("#goRecuperar");
+
+    if (elBem) elBem.textContent = T.bem;
+    if (elSub) elSub.textContent = T.sub;
+    if (elEmail) elEmail.placeholder = T.email;
+    if (elSenha) elSenha.placeholder = T.senha;
+    if (elEntrar) elEntrar.textContent = T.entrar;
+    if (elCad) elCad.textContent = T.cad;
+    if (elEsq) elEsq.textContent = T.esq;
+    if (btnLang) btnLang.textContent = `🌐 ${labels[lang] || labels.pt}`;
   }
 
-  window.setLoginLang = lang => {
+  window.setLoginLang = (lang) => {
     FEMFLOW.setLang?.(lang);
     localStorage.setItem("maleflow_lang", lang);
-    modalLang.classList.add("hidden");
+    modalLang?.classList.add("hidden");
     aplicarIdiomaLogin(lang);
   };
 
   aplicarIdiomaLogin(localStorage.getItem("maleflow_lang") || "pt");
-
 });
 </script>
-
 
 <!-- ============================
       MODAL DE IDIOMA
