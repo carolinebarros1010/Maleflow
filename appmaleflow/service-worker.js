@@ -23,7 +23,7 @@ const ASSETS = [
   "./js/anamnese.js",
  
   // Logos / ícones
-  "./assets/logo-maleflow.svg",
+  "./assets/logomaleflow1.jpg",
   "./assets/icons/icon-512.png"
 ];
 
@@ -32,7 +32,7 @@ const ASSETS = [
 // Faz o app abrir rápido, SEM delay no logo
 // --------------------------------------------------
 const CACHE_ASSETS = [
-  "./assets/logo-maleflow.svg",
+  "./assets/logomaleflow1.jpg",
   "./assets/icons/icon-512.png"
 ];
 
