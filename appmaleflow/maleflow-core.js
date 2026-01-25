@@ -9,8 +9,62 @@ window.FEMFLOW = window.FEMFLOW || {};
    1. CONFIG GLOBAL
 =========================================================== */
 
-FEMFLOW.SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPwSQqmrJiDX5299PdgXHd97r1tqvig2jgLP65EXXviKT0YwTL8CcxXsEzQTZTCepV/exec";
-FEMFLOW.API_URL = FEMFLOW.SCRIPT_URL;
+FEMFLOW.API_BASE = "https://maleflow.com.br/api";
+FEMFLOW.SCRIPT_URL = FEMFLOW.API_BASE;
+FEMFLOW.API_URL = FEMFLOW.API_BASE;
+
+FEMFLOW.buildApiUrl = function (params = {}, path = "") {
+  const finalParams = { ...params };
+  let resolvedPath = path;
+
+  if (!resolvedPath) {
+    const actionValue = finalParams.acao || finalParams.action;
+    if (actionValue) {
+      resolvedPath = String(actionValue);
+      delete finalParams.acao;
+      delete finalParams.action;
+    }
+  }
+
+  const cleanPath = resolvedPath
+    ? resolvedPath.startsWith("/")
+      ? resolvedPath
+      : `/${resolvedPath}`
+    : "";
+
+  const url = new URL(`${FEMFLOW.API_BASE}${cleanPath}`, window.location.origin);
+
+  Object.entries(finalParams).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+    url.searchParams.set(key, String(value));
+  });
+
+  return `${url.pathname}${url.search}`;
+};
+
+FEMFLOW.apiGet = async function (params = {}, path = "") {
+  const resp = await fetch(FEMFLOW.buildApiUrl(params, path), { method: "GET" });
+  const text = await resp.text();
+  try {
+    return JSON.parse(text);
+  } catch (_err) {
+    return text;
+  }
+};
+
+FEMFLOW.apiPost = async function (params = {}, data = {}, path = "") {
+  const resp = await fetch(FEMFLOW.buildApiUrl(params, path), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  const text = await resp.text();
+  try {
+    return JSON.parse(text);
+  } catch (_err) {
+    return text;
+  }
+};
 
 FEMFLOW.lang = localStorage.getItem("maleflow_lang") || "pt";
 FEMFLOW.setLang = function (lang) {
@@ -169,11 +223,7 @@ FEMFLOW.post = async function (payload) {
     ...session
   };
 
-  const resp = await fetch(FEMFLOW.SCRIPT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
-  }).then(r => r.json());
+  const resp = await FEMFLOW.apiPost({ acao: payload.action }, body);
 
   // Sessão inválida ou bloqueada
   if (resp?.status === "blocked" || resp?.status === "denied") {
@@ -407,7 +457,7 @@ FEMFLOW.inserirHeaderApp = function () {
   const h = document.createElement("header");
   h.id = "femflowHeader";
   h.innerHTML = `
-    <img src="./assets/logofemflowterracotasf.png" class="ff-logo">
+    <img src="./assets/logo-maleflow.svg" class="ff-logo">
     <button id="ffMenuBtn" class="ff-menu-btn">&#9776;</button>
   `;
 
@@ -486,7 +536,7 @@ FEMFLOW.carregarCicloBackend = async function () {
   if (!id) return null;
 
   try {
-    const resp = await fetch(`${FEMFLOW.SCRIPT_URL}?action=sync&id=${id}`).then(r => r.json());
+    const resp = await FEMFLOW.apiGet({ acao: "sync", id });
     FEMFLOW.log("📌 SYNC:", resp);
 
     if (!resp) return null;
@@ -888,7 +938,7 @@ FEMFLOW.carregarPerfil = async function () {
   if (!id) return null;
 
   try {
-    const r = await fetch(`${FEMFLOW.SCRIPT_URL}?action=validar&id=${id}`).then(r => r.json());
+    const r = await FEMFLOW.apiGet({ acao: "validar", id });
     if (r.status !== "ok") return null;
 
     localStorage.setItem("maleflow_nome", r.nome || "Aluno");
