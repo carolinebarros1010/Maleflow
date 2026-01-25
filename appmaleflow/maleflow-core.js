@@ -9,7 +9,9 @@ window.FEMFLOW = window.FEMFLOW || {};
    1. CONFIG GLOBAL
 =========================================================== */
 
-FEMFLOW.SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPwSQqmrJiDX5299PdgXHd97r1tqvig2jgLP65EXXviKT0YwTL8CcxXsEzQTZTCepV/exec";
+FEMFLOW.SCRIPT_URL =
+  localStorage.getItem("maleflow_script") ||
+  "./proxy.php";
 FEMFLOW.API_URL = FEMFLOW.SCRIPT_URL;
 
 FEMFLOW.lang = localStorage.getItem("maleflow_lang") || "pt";
