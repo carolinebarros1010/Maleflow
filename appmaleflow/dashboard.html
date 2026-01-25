@@ -93,9 +93,8 @@
   </section>
 </main>
 
+<script src="maleflow-core.js"></script>
 <script>
-  // 🔧 coloque aqui seu endpoint atual
-  const BASE = "<?= ScriptApp.getService().getUrl() ?>";
 
   const el = (id) => document.getElementById(id);
   const setPill = (txt, kind="") => {
@@ -105,11 +104,7 @@
   };
 
   async function api(action, params={}) {
-    const url = new URL(BASE);
-    url.searchParams.set("action", action);
-    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k, v));
-    const r = await fetch(url.toString(), { method:"GET" });
-    return r.json();
+    return FEMFLOW.apiGet({ acao: action, ...params });
   }
 
   function renderAlertas(alertas){
@@ -165,11 +160,7 @@
 
     setPill("Carregando…");
     // usa sua action validar (fonte única)
-    const url = new URL(BASE);
-    url.searchParams.set("action", "validar");
-    url.searchParams.set("id", id);
-
-    const resp = await fetch(url.toString()).then(r=>r.json());
+    const resp = await api("validar", { id });
     if (resp.status !== "ok"){ setPill("Não encontrado", "bad"); return; }
 
     setPill("OK", "ok");

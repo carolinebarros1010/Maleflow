@@ -179,18 +179,15 @@ async function salvar() {
   $("#btnSalvar").disabled = true;
 
   try {
-    const resp = await fetch(FEMFLOW.SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const data = await FEMFLOW.apiPost(
+      { acao: "resetsenha" },
+      {
         action: "resetsenha",
         id: window._resetID,
         token: window._resetToken,
         novaSenha: s1
-      })
-    });
-
-    const data = await resp.json();
+      }
+    );
     console.log("BACK RESET:", data);
 
     if (data.status === "ok") {

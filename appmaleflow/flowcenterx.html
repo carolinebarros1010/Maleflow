@@ -451,8 +451,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function calcularEngineHormonal() {
     const id = localStorage.getItem("maleflow_id");
 
-    const response = await fetch(`${SCRIPT_URL}?action=status&id=${id}`);
-    const data = await response.json();
+    const data = await FEMFLOW.apiGet({ acao: "status", id });
 
     if (data.status !== "ok") {
       FEMFLOW.toast("⚠️ Não foi possível recuperar o ciclo do usuário.");
@@ -508,21 +507,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       diaKey: diaKey
     };
 
-    const url =
-      `${SCRIPT_URL}?action=treino` +
-      `&id=${encodeURIComponent(id)}` +
-      `&fase=${encodeURIComponent(faseFirebase)}` +
-      `&diaFirebase=${encodeURIComponent(diaFirebase)}` +
-      `&diaKey=${encodeURIComponent(diaKey)}` +
-      `&nivel=${encodeURIComponent(localStorage.getItem("maleflow_nivel") || "")}` +
-      `&enfase=${encodeURIComponent(localStorage.getItem("maleflow_enfase") || "")}` +
-      `&diaCiclo=${encodeURIComponent(localStorage.getItem("maleflow_diaCiclo"))}`;
-
     let j = null;
 
     try {
-      const resp = await fetch(url);
-      j = await resp.json();
+      j = await FEMFLOW.apiGet({
+        acao: "treino",
+        id,
+        fase: faseFirebase,
+        diaFirebase,
+        diaKey,
+        nivel: localStorage.getItem("maleflow_nivel") || "",
+        enfase: localStorage.getItem("maleflow_enfase") || "",
+        diaCiclo: localStorage.getItem("maleflow_diaCiclo")
+      });
     } catch (e) {
       console.error("❌ GET treino falhou:", e);
     }

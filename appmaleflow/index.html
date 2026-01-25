@@ -74,11 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.FEMFLOW = window.FEMFLOW || {};
 
-  const scriptURL =
-    FEMFLOW.SCRIPT_URL ||
-    localStorage.getItem("maleflow_script") ||
-    "./proxy.php";
-
   const $ = sel => document.querySelector(sel);
   const msg = $("#mensagem");
 
@@ -89,24 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   async function postGAS(p){
-    const r = await fetch(scriptURL, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(p)
-    });
-    const text = await r.text();
-    if (!r.ok) {
-      throw new Error(`HTTP ${r.status}: ${text.slice(0, 160)}`);
-    }
-    if (!text.trim().startsWith("{")) {
-      console.error("❌ Resposta não-JSON:", text);
+    const data = await FEMFLOW.apiPost({ acao: p.action }, p);
+    if (typeof data === "string") {
+      console.error("❌ Resposta não-JSON:", data);
       throw new Error("Servidor retornou HTML");
     }
-    try {
-      return JSON.parse(text);
-    } catch (err) {
-      throw new Error(`Resposta inválida do servidor: ${text.slice(0, 160)}`);
-    }
+    return data;
   }
 
   /* ============================================================
