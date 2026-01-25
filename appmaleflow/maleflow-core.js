@@ -13,11 +13,12 @@ FEMFLOW.API_BASE = "https://maleflow.com.br/api";
 FEMFLOW.SCRIPT_URL = FEMFLOW.API_BASE;
 FEMFLOW.API_URL = FEMFLOW.API_BASE;
 
-FEMFLOW.buildApiUrl = function (params = {}, path = "") {
+FEMFLOW.buildApiUrl = function (params = {}, path = "", options = {}) {
   const finalParams = { ...params };
   let resolvedPath = path;
+  const useActionPath = options.useActionPath !== false;
 
-  if (!resolvedPath) {
+  if (!resolvedPath && useActionPath) {
     const actionValue = finalParams.acao || finalParams.action;
     if (actionValue) {
       resolvedPath = String(actionValue);
@@ -53,7 +54,8 @@ FEMFLOW.apiGet = async function (params = {}, path = "") {
 };
 
 FEMFLOW.apiPost = async function (params = {}, data = {}, path = "") {
-  const resp = await fetch(FEMFLOW.buildApiUrl(params, path), {
+  const url = FEMFLOW.buildApiUrl(params, path, { useActionPath: false });
+  const resp = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
@@ -457,7 +459,7 @@ FEMFLOW.inserirHeaderApp = function () {
   const h = document.createElement("header");
   h.id = "femflowHeader";
   h.innerHTML = `
-    <img src="./assets/logo-maleflow.svg" class="ff-logo">
+    <img src="./assets/logomaleflow1.jpg" class="ff-logo">
     <button id="ffMenuBtn" class="ff-menu-btn">&#9776;</button>
   `;
 
