@@ -34,7 +34,7 @@
       <img src="assets/logo-maleflow.svg" class="logo"/>
 
       <h2 id="tLoginBemVinda">Bem-vindo</h2>
-      <p class="subtitle" id="tLoginSub">Acesse ou crie sua conta para iniciar seu ciclo</p>
+      <p class="subtitle" id="tLoginSub">Acesse ou crie sua conta para iniciar seu Treino</p>
 
       <button id="btnLoginLang" class="login-lang-btn">🌐 Português</button>
 
@@ -389,9 +389,9 @@ if (res.deviceUpdated) {
 
   function aplicarIdiomaLogin(lang){
     const T = {
-      pt:{ bem:"Bem-vindo", sub:"Acesse ou crie sua conta para iniciar seu ciclo", email:"Seu e-mail", senha:"Sua senha", entrar:"Entrar", cad:"Ainda não tem conta? Cadastre-se", esq:"Esqueci minha senha" },
-      en:{ bem:"Welcome", sub:"Access or create your account to start your cycle", email:"Your email", senha:"Your password", entrar:"Login", cad:"Don’t have an account? Sign up", esq:"Forgot my password" },
-      fr:{ bem:"Bienvenue", sub:"Accédez ou créez votre compte pour commencer votre cycle", email:"Votre e-mail", senha:"Votre mot de passe", entrar:"Entrer", cad:"Pas de compte ? S'inscrire", esq:"J’ai oublié mon mot de passe" }
+      pt:{ bem:"Bem-vindo", sub:"Acesse ou crie sua conta para iniciar seu Treino", email:"Seu e-mail", senha:"Sua senha", entrar:"Entrar", cad:"Ainda não tem conta? Cadastre-se", esq:"Esqueci minha senha" },
+      en:{ bem:"Welcome", sub:"Access or create your account to start your training", email:"Your email", senha:"Your password", entrar:"Login", cad:"Don’t have an account? Sign up", esq:"Forgot my password" },
+      fr:{ bem:"Bienvenue", sub:"Accédez ou créez votre compte pour commencer votre entraînement", email:"Votre e-mail", senha:"Votre mot de passe", entrar:"Entrer", cad:"Pas de compte ? S'inscrire", esq:"J’ai oublié mon mot de passe" }
     }[lang] || T.pt;
     const labels = {
       pt: "Português",
