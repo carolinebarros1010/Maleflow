@@ -53,7 +53,8 @@ FEMFLOW.apiGet = async function (params = {}, path = "") {
 };
 
 FEMFLOW.apiPost = async function (params = {}, data = {}, path = "") {
-  const resp = await fetch(FEMFLOW.buildApiUrl(params, path), {
+  const url = path ? FEMFLOW.buildApiUrl(params, path) : FEMFLOW.API_BASE;
+  const resp = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
