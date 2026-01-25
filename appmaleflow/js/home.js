@@ -95,15 +95,14 @@ async function salvarFrequencia(valor) {
   const id = localStorage.getItem("maleflow_id");
   if (!id) return;
 
-  await fetch(FEMFLOW.SCRIPT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  await FEMFLOW.apiPost(
+    { acao: "setfrequencia" },
+    {
       action: "setfrequencia",
       id,
       frequencia: valor
-    })
-  });
+    }
+  );
 }
 
 async function garantirFrequencia() {
@@ -144,12 +143,11 @@ async function carregarPerfilEAtualizarStorage() {
   if (!id && !email) return { status: "no_auth" };
 
   // ✅ chama VALIDAR (fonte da verdade)
-  const qs = new URLSearchParams({ action: "validar" });
-  if (id) qs.set("id", id);
-  else qs.set("email", email);
-
-  const url = `${FEMFLOW.SCRIPT_URL}?${qs.toString()}`;
-  const perfil = await fetch(url).then(r => r.json()).catch(() => ({ status: "error" }));
+  const perfil = await FEMFLOW.apiGet({
+    acao: "validar",
+    id: id || undefined,
+    email: id ? undefined : email
+  });
 
   return perfil;
 }
@@ -865,25 +863,23 @@ async function selecionarEnfase(enfase) {
 
   if (id) {
     // 3) backend: salvar ênfase
-    await fetch(FEMFLOW.SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    await FEMFLOW.apiPost(
+      { acao: "setenfase" },
+      {
         action: "setenfase",
         id,
         enfase
-      })
-    });
+      }
+    );
 
     // 4) backend: resetar programa
-    await fetch(FEMFLOW.SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    await FEMFLOW.apiPost(
+      { acao: "resetprograma" },
+      {
         action: "resetprograma",
         id
-      })
-    });
+      }
+    );
   }
 
   // 5) seguir fluxo normal
@@ -900,11 +896,10 @@ async function selecionarCoach(coach) {
   localStorage.setItem("maleflow_enfase", coach);
 
   if (id) {
-    await fetch(FEMFLOW.SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "setenfase", id, enfase: coach })
-    });
+    await FEMFLOW.apiPost(
+      { acao: "setenfase" },
+      { action: "setenfase", id, enfase: coach }
+    );
     await FEMFLOW.reiniciarDiaPrograma();
   }
 

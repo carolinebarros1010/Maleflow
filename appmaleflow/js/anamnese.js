@@ -121,11 +121,6 @@ function getPerguntasTraduzidas() {
 
   const reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const SCRIPT_URL =
-    FEMFLOW?.SCRIPT_URL ||
-    localStorage.getItem("maleflow_script") ||
-    "https://script.google.com/macros/s/AKfycbxPwSQqmrJiDX5299PdgXHd97r1tqvig2jgLP65EXXviKT0YwTL8CcxXsEzQTZTCepV/exec";
-
   // ------------------------------------------------------------
   //  VALIDAÇÃO
   // ------------------------------------------------------------
@@ -160,11 +155,13 @@ function getPerguntasTraduzidas() {
   // ------------------------------------------------------------
   async function leadParcial(nome,email,telefone){
     try{
-      const qs = new URLSearchParams({
-        action:"leadparcial", nome,email,telefone,
-        origem:"Anamnese Deluxe FemFlow"
-      }).toString();
-      await fetch(SCRIPT_URL+"?"+qs);
+      await FEMFLOW.apiGet({
+        acao: "leadparcial",
+        nome,
+        email,
+        telefone,
+        origem: "Anamnese Deluxe FemFlow"
+      });
     }catch(_){}
   }
 

@@ -110,12 +110,11 @@ function flowcenterSyncPerfil() {
   const email = localStorage.getItem("maleflow_email") || "";
   if (!id && !email) return { status: "no_auth" };
 
-  const qs = new URLSearchParams({ action: "validar" });
-  if (id) qs.set("id", id);
-  else qs.set("email", email);
-
-  const url = `${FEMFLOW.SCRIPT_URL}?${qs.toString()}`;
-  return fetch(url).then(r => r.json()).catch(() => ({ status: "error" }));
+  return FEMFLOW.apiGet({
+    acao: "validar",
+    id: id || undefined,
+    email: id ? undefined : email
+  }).catch(() => ({ status: "error" }));
 }
 
 function flowcenterPersistPerfil(perfil) {
