@@ -40,32 +40,53 @@ FEMFLOW.buildApiUrl = function (params = {}, path = "", options = {}) {
     url.searchParams.set(key, String(value));
   });
 
-  return `${url.pathname}${url.search}`;
+  return url.toString();
+};
+
+FEMFLOW.parseApiResponse = async function (resp) {
+  const contentType = resp.headers.get("content-type") || "";
+  const text = await resp.text();
+  let data = null;
+
+  try {
+    data = JSON.parse(text);
+  } catch (_err) {
+    data = null;
+  }
+
+  if (!resp.ok) {
+    return {
+      ok: false,
+      status: resp.status,
+      error: data?.error || "http_error",
+      data,
+      raw: text,
+      contentType
+    };
+  }
+
+  return data ?? text;
 };
 
 FEMFLOW.apiGet = async function (params = {}, path = "") {
-  const resp = await fetch(FEMFLOW.buildApiUrl(params, path), { method: "GET" });
-  const text = await resp.text();
-  try {
-    return JSON.parse(text);
-  } catch (_err) {
-    return text;
-  }
+  const resp = await fetch(FEMFLOW.buildApiUrl(params, path), {
+    method: "GET",
+    headers: { Accept: "application/json" }
+  });
+  return FEMFLOW.parseApiResponse(resp);
 };
 
 FEMFLOW.apiPost = async function (params = {}, data = {}, path = "") {
   const url = FEMFLOW.buildApiUrl(params, path, { useActionPath: false });
   const resp = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(data)
   });
-  const text = await resp.text();
-  try {
-    return JSON.parse(text);
-  } catch (_err) {
-    return text;
-  }
+  return FEMFLOW.parseApiResponse(resp);
 };
 
 FEMFLOW.lang = localStorage.getItem("maleflow_lang") || "pt";
