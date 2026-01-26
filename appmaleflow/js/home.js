@@ -9,6 +9,20 @@ const LINK_ACESSO_APP = "https://pay.hotmart.com/E102962105N";
 const LINK_PERSONAL   = "https://myflowlife.com.br/#ofertas";
 const EBOOKS_DATA_URL = "ebooks/ebooks.json";
 
+const HOME_DEBUG = true;
+
+function homeLog(...args) {
+  if (HOME_DEBUG) console.log("[HOME]", ...args);
+}
+
+function homeWarn(...args) {
+  if (HOME_DEBUG) console.warn("[HOME]", ...args);
+}
+
+function homeErr(...args) {
+  console.error("[HOME]", ...args);
+}
+
 /* FOLLOWME */
 const FOLLOWME_LINKS = {
   livia: "#",
@@ -84,7 +98,7 @@ function cicloPorFrequencia(valor) {
   if (valor === 2) return "AB";
   if (valor === 3) return "ABC";
   if (valor === 4) return "ABCD";
-  if (valor === 5) return "ABCED";
+  if (valor === 5) return "ABCDE";
   return "ABC";
 }
 
@@ -142,14 +156,43 @@ async function carregarPerfilEAtualizarStorage() {
   // sem identificador -> volta pro login
   if (!id && !email) return { status: "no_auth" };
 
-  // ✅ chama VALIDAR (fonte da verdade)
-  const perfil = await FEMFLOW.apiGet({
+  const query = {
     acao: "validar",
+    action: "validar",
     id: id || undefined,
     email: id ? undefined : email
+  };
+
+  const t0 = performance.now();
+  homeLog("VALIDAR query:", { ...query, email: query.email ? "***" : undefined });
+  homeLog("VALIDAR localStorage id/email:", {
+    id: id || null,
+    email: email ? "***" : null
   });
 
-  return perfil;
+  try {
+    const perfil = await FEMFLOW.apiGet?.(query);
+    const ms = Math.round(performance.now() - t0);
+    homeLog("VALIDAR resposta em", ms, "ms");
+    homeLog("VALIDAR keys:", perfil ? Object.keys(perfil) : null);
+    homeLog("VALIDAR payload:", perfil);
+
+    const apiMeta =
+      perfil?.__meta ||
+      perfil?.meta ||
+      perfil?._meta ||
+      perfil?.response ||
+      perfil?.http;
+    if (apiMeta?.status || apiMeta?.statusCode) {
+      homeLog("VALIDAR status HTTP:", apiMeta.status || apiMeta.statusCode);
+    }
+
+    return perfil || { status: "error", message: "Perfil vazio" };
+  } catch (e) {
+    const ms = Math.round(performance.now() - t0);
+    homeErr("VALIDAR falhou em", ms, "ms:", e);
+    return { status: "error", message: String(e?.message || e) };
+  }
 }
 
 function parseBooleanish(value) {
@@ -965,9 +1008,18 @@ function aplicarIdiomaHome() {
    HOME — AGORA USANDO SOMENTE VALIDAR (SEM SYNC)
 =========================================================== */
 document.addEventListener("DOMContentLoaded", async () => {
+  homeLog("HOME init start");
+  homeLog("FEMFLOW helpers:", {
+    apiGet: typeof FEMFLOW?.apiGet,
+    apiPost: typeof FEMFLOW?.apiPost,
+    loading: typeof FEMFLOW?.loading,
+    toast: typeof FEMFLOW?.toast,
+    router: typeof FEMFLOW?.router
+  });
   FEMFLOW.loading.show("Carregando…");
 
   try {
+    homeLog("HOME init: preparando modais");
     const treinosStorage = Number(
       localStorage.getItem(FREQUENCIA_KEY) || localStorage.getItem(TREINOS_SEMANA_KEY)
     );
@@ -1035,21 +1087,39 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
+    homeLog("HOME init: carregando perfil");
     const perfil = await carregarPerfilEAtualizarStorage();
+    const statusRaw = String(perfil?.status || "").toLowerCase().trim();
+    const status = statusRaw || "unknown";
+    const ok =
+      status === "ok" ||
+      perfil?.ok === true ||
+      (perfil?.result && String(perfil.result).toLowerCase() === "ok");
 
-    if (perfil.status !== "ok") {
-      FEMFLOW.toast("Erro ao atualizar dados. Tente novamente.");
+    homeLog("VALIDAR status normalizado:", status);
+
+    if (status === "no_auth") {
+      FEMFLOW.toast("Faça login novamente.");
+      FEMFLOW.clearSession?.();
       FEMFLOW.loading.hide();
-      return;
+      return FEMFLOW.router("index.html");
     }
 
-    if (perfil.status === "blocked" || perfil.status === "denied") {
+    if (status === "blocked" || status === "denied") {
       FEMFLOW.toast("Sessão inválida. Faça login novamente.");
       FEMFLOW.clearSession?.();
       FEMFLOW.loading.hide();
       return FEMFLOW.router("index.html");
     }
 
+    if (!ok) {
+      homeWarn("VALIDAR retorno não ok:", perfil);
+      FEMFLOW.toast("Erro ao atualizar dados. Tente novamente.");
+      FEMFLOW.loading.hide();
+      return;
+    }
+
+    homeLog("HOME init: persistindo perfil");
     persistPerfil(perfil);
 
     // ✅ ciclo configurado vem do VALIDAR
@@ -1064,6 +1134,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    homeLog("HOME init: carregando catálogo");
     const catalogo = await carregarCatalogoFirebase();
 
     /* ============================================================
@@ -1096,6 +1167,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       catalogo.followme.push(...cards);
     }
 
+    homeLog("HOME init: renderizando rails");
     renderRail(document.getElementById("railFollowMe"), catalogo.followme);
     renderRail(document.getElementById("railMuscular"), catalogo.muscular);
     renderRail(document.getElementById("railEsportes"), catalogo.esportes);
@@ -1103,12 +1175,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderRail(document.getElementById("railPersonal"), catalogo.personal);
     renderEbookRail(document.getElementById("railEbooks"), await carregarEbooks());
 
+    homeLog("HOME init: aplicando idioma");
     aplicarIdiomaHome();
   } catch (err) {
-    console.error("HOME init erro:", err);
+    homeErr("HOME init erro:", err);
     FEMFLOW.toast("Falha ao carregar. Verifique internet.");
   } finally {
     FEMFLOW.loading.hide();
+    homeLog("HOME init end");
   }
 });
 
