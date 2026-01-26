@@ -1008,9 +1008,18 @@ function aplicarIdiomaHome() {
    HOME — AGORA USANDO SOMENTE VALIDAR (SEM SYNC)
 =========================================================== */
 document.addEventListener("DOMContentLoaded", async () => {
+  homeLog("HOME init start");
+  homeLog("FEMFLOW helpers:", {
+    apiGet: typeof FEMFLOW?.apiGet,
+    apiPost: typeof FEMFLOW?.apiPost,
+    loading: typeof FEMFLOW?.loading,
+    toast: typeof FEMFLOW?.toast,
+    router: typeof FEMFLOW?.router
+  });
   FEMFLOW.loading.show("Carregando…");
 
   try {
+    homeLog("HOME init: preparando modais");
     const treinosStorage = Number(
       localStorage.getItem(FREQUENCIA_KEY) || localStorage.getItem(TREINOS_SEMANA_KEY)
     );
@@ -1078,6 +1087,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
+    homeLog("HOME init: carregando perfil");
     const perfil = await carregarPerfilEAtualizarStorage();
     const statusRaw = String(perfil?.status || "").toLowerCase().trim();
     const status = statusRaw || "unknown";
@@ -1109,6 +1119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    homeLog("HOME init: persistindo perfil");
     persistPerfil(perfil);
 
     // ✅ ciclo configurado vem do VALIDAR
@@ -1123,6 +1134,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    homeLog("HOME init: carregando catálogo");
     const catalogo = await carregarCatalogoFirebase();
 
     /* ============================================================
@@ -1155,6 +1167,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       catalogo.followme.push(...cards);
     }
 
+    homeLog("HOME init: renderizando rails");
     renderRail(document.getElementById("railFollowMe"), catalogo.followme);
     renderRail(document.getElementById("railMuscular"), catalogo.muscular);
     renderRail(document.getElementById("railEsportes"), catalogo.esportes);
@@ -1162,12 +1175,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderRail(document.getElementById("railPersonal"), catalogo.personal);
     renderEbookRail(document.getElementById("railEbooks"), await carregarEbooks());
 
+    homeLog("HOME init: aplicando idioma");
     aplicarIdiomaHome();
   } catch (err) {
-    console.error("HOME init erro:", err);
+    homeErr("HOME init erro:", err);
     FEMFLOW.toast("Falha ao carregar. Verifique internet.");
   } finally {
     FEMFLOW.loading.hide();
+    homeLog("HOME init end");
   }
 });
 
