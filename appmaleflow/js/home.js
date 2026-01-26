@@ -9,6 +9,20 @@ const LINK_ACESSO_APP = "https://pay.hotmart.com/E102962105N";
 const LINK_PERSONAL   = "https://myflowlife.com.br/#ofertas";
 const EBOOKS_DATA_URL = "ebooks/ebooks.json";
 
+const HOME_DEBUG = true;
+
+function homeLog(...args) {
+  if (HOME_DEBUG) console.log("[HOME]", ...args);
+}
+
+function homeWarn(...args) {
+  if (HOME_DEBUG) console.warn("[HOME]", ...args);
+}
+
+function homeErr(...args) {
+  console.error("[HOME]", ...args);
+}
+
 /* FOLLOWME */
 const FOLLOWME_LINKS = {
   livia: "#",
@@ -84,7 +98,7 @@ function cicloPorFrequencia(valor) {
   if (valor === 2) return "AB";
   if (valor === 3) return "ABC";
   if (valor === 4) return "ABCD";
-  if (valor === 5) return "ABCED";
+  if (valor === 5) return "ABCDE";
   return "ABC";
 }
 
@@ -142,14 +156,43 @@ async function carregarPerfilEAtualizarStorage() {
   // sem identificador -> volta pro login
   if (!id && !email) return { status: "no_auth" };
 
-  // ✅ chama VALIDAR (fonte da verdade)
-  const perfil = await FEMFLOW.apiGet({
+  const query = {
     acao: "validar",
+    action: "validar",
     id: id || undefined,
     email: id ? undefined : email
+  };
+
+  const t0 = performance.now();
+  homeLog("VALIDAR query:", { ...query, email: query.email ? "***" : undefined });
+  homeLog("VALIDAR localStorage id/email:", {
+    id: id || null,
+    email: email ? "***" : null
   });
 
-  return perfil;
+  try {
+    const perfil = await FEMFLOW.apiGet?.(query);
+    const ms = Math.round(performance.now() - t0);
+    homeLog("VALIDAR resposta em", ms, "ms");
+    homeLog("VALIDAR keys:", perfil ? Object.keys(perfil) : null);
+    homeLog("VALIDAR payload:", perfil);
+
+    const apiMeta =
+      perfil?.__meta ||
+      perfil?.meta ||
+      perfil?._meta ||
+      perfil?.response ||
+      perfil?.http;
+    if (apiMeta?.status || apiMeta?.statusCode) {
+      homeLog("VALIDAR status HTTP:", apiMeta.status || apiMeta.statusCode);
+    }
+
+    return perfil || { status: "error", message: "Perfil vazio" };
+  } catch (e) {
+    const ms = Math.round(performance.now() - t0);
+    homeErr("VALIDAR falhou em", ms, "ms:", e);
+    return { status: "error", message: String(e?.message || e) };
+  }
 }
 
 function parseBooleanish(value) {
@@ -1036,18 +1079,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const perfil = await carregarPerfilEAtualizarStorage();
+    const statusRaw = String(perfil?.status || "").toLowerCase().trim();
+    const status = statusRaw || "unknown";
+    const ok =
+      status === "ok" ||
+      perfil?.ok === true ||
+      (perfil?.result && String(perfil.result).toLowerCase() === "ok");
 
-    if (perfil.status !== "ok") {
-      FEMFLOW.toast("Erro ao atualizar dados. Tente novamente.");
+    homeLog("VALIDAR status normalizado:", status);
+
+    if (status === "no_auth") {
+      FEMFLOW.toast("Faça login novamente.");
+      FEMFLOW.clearSession?.();
       FEMFLOW.loading.hide();
-      return;
+      return FEMFLOW.router("index.html");
     }
 
-    if (perfil.status === "blocked" || perfil.status === "denied") {
+    if (status === "blocked" || status === "denied") {
       FEMFLOW.toast("Sessão inválida. Faça login novamente.");
       FEMFLOW.clearSession?.();
       FEMFLOW.loading.hide();
       return FEMFLOW.router("index.html");
+    }
+
+    if (!ok) {
+      homeWarn("VALIDAR retorno não ok:", perfil);
+      FEMFLOW.toast("Erro ao atualizar dados. Tente novamente.");
+      FEMFLOW.loading.hide();
+      return;
     }
 
     persistPerfil(perfil);
