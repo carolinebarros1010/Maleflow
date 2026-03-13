@@ -370,7 +370,7 @@ FEMFLOW.getCicloTreino = function () {
     if (treinosSemana === 2) return "AB";
     if (treinosSemana === 3) return "ABC";
     if (treinosSemana === 4) return "ABCD";
-    if (treinosSemana === 5) return "ABCED";
+    if (treinosSemana === 5) return "ABCDE";
     return "ABC";
   }
 
@@ -823,7 +823,7 @@ FEMFLOW._acaoMenu = function (op) {
  // dispatch
 FEMFLOW.dispatch("stateChanged", {
   type: "ciclo",
-  impact: "fisiologico",
+  impact: "estrutural",
   source: location.pathname.includes("home") ? "home" : "flowcenter"
 });
 ;
@@ -1099,4 +1099,22 @@ FEMFLOW.init = async function () {
    11. AUTO START
 =========================================================== */
 
-document.addEventListener("DOMContentLoaded", () => FEMFLOW.init());
+FEMFLOW.registerServiceWorker = function () {
+  if (!("serviceWorker" in navigator)) return;
+  if (window.__maleflowSwRegistered) return;
+
+  window.__maleflowSwRegistered = true;
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./service-worker.js", { scope: "./" })
+      .catch((err) => {
+        FEMFLOW.warn?.("Falha ao registrar service worker:", err);
+      });
+  }, { once: true });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  FEMFLOW.registerServiceWorker();
+  FEMFLOW.init();
+});

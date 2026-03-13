@@ -667,7 +667,7 @@ const CARD_THUMBS = {
 function getThumbUrl(enfase) {
   const file = CARD_THUMBS[enfase];
   if (!file) return "";
-  return new URL(`/femflow/app/css/cards/${file}`, window.location.origin).toString();
+  return new URL(`/appmaleflow/css/cards/${file}`, window.location.origin).toString();
 }
 
 /* ============================================================
@@ -678,7 +678,7 @@ const EBOOKS_FALLBACK_COLOR = "#fceae3";
 function resolveEbookUrl(path) {
   const cleanPath = String(path || "").replace(/^\/+/, "");
   if (!cleanPath) return "";
-  return new URL(`/femflow/app/ebooks/${cleanPath}`, window.location.origin).toString();
+  return new URL(`/appmaleflow/ebooks/${cleanPath}`, window.location.origin).toString();
 }
 
 function resolveEbookLink(link) {
@@ -856,7 +856,7 @@ async function handleCardClick(enfase, locked) {
 
     FEMFLOW.dispatch("stateChanged", {
       type: "ciclo",
-      impact: "fisiologico",
+      impact: "estrutural",
       source: "home"
     });
 
@@ -901,7 +901,7 @@ async function selecionarEnfase(enfase) {
   // 1) salvar nova ênfase
   localStorage.setItem("maleflow_enfase", enfase);
 
-  // 2) reset explícito do programa (REGRA FEMFLOW)
+  // 2) reset explicito do programa ao trocar a estrutura do treino
   localStorage.setItem("maleflow_diaPrograma", "1");
 
   if (id) {

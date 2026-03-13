@@ -1,5 +1,5 @@
 // 🌸 FemFlow Service Worker v5.0 (PWA + CORS safe)
-const CACHE_NAME = "femflow-cache-v7";
+const CACHE_NAME = "maleflow-cache-v1";
 
 // Arquivos principais do app (tela, JS e manifest)
 const ASSETS = [
@@ -40,7 +40,7 @@ const CACHE_ASSETS = [
 // 🪴 3. INSTALAÇÃO — cache inicial rápido
 // --------------------------------------------------
 self.addEventListener("install", (event) => {
-  console.log("📦 Instalando FemFlow PWA…");
+  console.log("📦 Instalando MALEflow PWA...");
 
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -61,7 +61,7 @@ self.addEventListener("install", (event) => {
 // 🔁 4. ATIVAÇÃO — limpa caches antigos e prefetch das logos
 // --------------------------------------------------
 self.addEventListener("activate", (event) => {
-  console.log(`✨ FemFlow SW ativo (${CACHE_NAME})`);
+  console.log(`✨ MALEflow SW ativo (${CACHE_NAME})`);
 
   event.waitUntil(
     (async () => {
@@ -143,6 +143,6 @@ self.addEventListener("message", (event) => {
   }
 
   if (event.data === "checkVersion") {
-    console.log(`[FemFlow] Cache ativo: ${CACHE_NAME}`);
+    console.log(`[MALEflow] Cache ativo: ${CACHE_NAME}`);
   }
 });

@@ -1,11 +1,11 @@
 {
-  "id": "/femflow/app/home.html",
-  "name": "FemFlow – Ciclo Inteligente",
-  "short_name": "FemFlow",
-  "description": "Treine com foco e consistência. Ciclos AB/ABC/ABCD/ABCDE para evoluir na ordem certa.",
+  "id": "/appmaleflow/",
+  "name": "MALEflow",
+  "short_name": "MALEflow",
+  "description": "Treine com foco e consistencia. Divisoes AB, ABC, ABCD e ABCDE para evoluir na ordem certa.",
   "lang": "pt-BR",
-  "start_url": "/femflow/app/index.html",
-  "scope": "/femflow/app/",
+  "start_url": "/appmaleflow/index.html",
+  "scope": "/appmaleflow/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#335953",
@@ -44,13 +44,5 @@
       "type": "image/webp",
       "form_factor": "wide"
     }
-  ],
-  "related_applications": [
-    {
-      "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=com.myflowlife.femflow",
-      "id": "com.myflowlife.femflow"
-    }
-  ],
-  "prefer_related_applications": true
+  ]
 }

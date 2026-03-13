@@ -7,7 +7,7 @@
   - **AB**
   - **ABC**
   - **ABCD**
-  - **ABCED**
+  - **ABCDE**
 
 ## Ciclagem
 
@@ -19,6 +19,6 @@
 
 ## Observações
 
-- O formato aplicado (AB, ABC, ABCD, ABCED) é definido dentro da ênfase.
+- O formato aplicado (AB, ABC, ABCD, ABCDE) é definido dentro da ênfase.
 - O ciclo é **sequencial** e não se reinicia automaticamente, a menos que haja mudança
   de contrato ou ajuste solicitado pelo aluno.

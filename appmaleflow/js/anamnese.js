@@ -8,8 +8,8 @@
 // ------------------------------------------------------------
 [
  "profile_form.webp", "routine_cycle.webp", "strength_training.webp",
- "mobility_flow.webp", "hormonal_balance.webp",
- "menstrual_flow.webp", "breath_cycle.webp", "success_flow.webp"
+ "mobility_flow.webp", "strength_training.webp",
+ "breath_cycle.webp", "success_flow.webp"
 ].forEach(g => {
   const img = new Image();
   img.src = "./assets/gifs/" + g;
@@ -20,7 +20,7 @@
 // ------------------------------------------------------------
 const Tcad = {
   pt: {
-    titulo: "Anamnese",
+    titulo: "Anamnese Masculina",
     hint: "🌸 Preencha seus dados para começar:",
     nome: "Nome completo",
     email: "E-mail",
@@ -32,7 +32,7 @@ const Tcad = {
     idioma: "🌐 Idioma"
   },
   en: {
-    titulo: "Assessment",
+    titulo: "Male Assessment",
     hint: "🌸 Fill your details to begin:",
     nome: "Full name",
     email: "Email",
@@ -160,7 +160,7 @@ function getPerguntasTraduzidas() {
         nome,
         email,
         telefone,
-        origem: "Anamnese Deluxe FemFlow"
+        origem: "Anamnese Deluxe MALEflow"
       });
     }catch(_){}
   }
@@ -199,7 +199,7 @@ function getPerguntasTraduzidas() {
     };
 
     // iniciar quiz
-    setTimeout(() => { window.iniciarQuizFemFlow?.(); }, 400);
+    setTimeout(() => { window.iniciarQuizMaleFlow?.(); }, 400);
   });
 
 })();
@@ -301,7 +301,7 @@ async function finalizarAnamnese() {
   FEMFLOW.toast?.("Sincronizando…");
 
   // --------------------------------------------------------
-  // 3) LOGIN OU CADASTRO (HOTMART + NOVA ALUNA)
+  // 3) LOGIN OU CADASTRO (HOTMART + NOVO ALUNO)
   // --------------------------------------------------------
   let r;
   try {
@@ -393,14 +393,14 @@ if (loginResp?.status === "ok") {
   document.addEventListener("DOMContentLoaded", () => {
     perguntas = getPerguntasTraduzidas();
 
-    window.iniciarQuizFemFlow = function(){
+    window.iniciarQuizMaleFlow = function(){
       idx=0;
       score=0;
       perguntas = getPerguntasTraduzidas();
 
 if (!perguntas.length) {
   FEMFLOW.toast?.("Carregando perguntas…");
-  setTimeout(() => window.iniciarQuizFemFlow?.(), 250);
+  setTimeout(() => window.iniciarQuizMaleFlow?.(), 250);
   return;
 }
 
